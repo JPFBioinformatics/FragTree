@@ -1,0 +1,25 @@
+# data — licensed, not for redistribution
+databases/reference/
+
+# python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# conda / virtual environments
+.env
+.venv
+env/
+venv/
+
+# jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/

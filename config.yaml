@@ -1,0 +1,12 @@
+# paths to files downloaded from NIST (not parsed)
+raw_data:
+  msp_dir: C:\Jack\Extracted NIST\FragPath\MSPs
+  mol_dir: C:\Jack\Extracted NIST\FragPath\MOLs
+
+# paths to databases
+dbs:
+  db_path: C:\Jack\CSD 491\FragTree\databases\reference\tms\metadata.db
+  h5_path: C:\Jack\CSD 491\FragTree\databases\reference\tms\spectra.h5
+
+outputs:
+  reports_dir: C:\Jack\CSD 491\FragTree\databases\reports
