@@ -1,4 +1,7 @@
 
 {
-    "extraPaths": ["src"]
+    "extraPaths": ["src"],
+    "reportMissingImports": false,
+    "reportAttributeAccessIssue": false,
+    "ignorePackages": ["rdkit"]
 }

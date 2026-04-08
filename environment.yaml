@@ -1,0 +1,16 @@
+name: fragtree
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.11
+  - rdkit
+  - h5py
+  - numpy
+  - matplotlib
+  - pyyaml
+  - pip
+  - pip:
+    - reportlab
