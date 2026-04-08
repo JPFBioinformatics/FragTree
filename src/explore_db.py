@@ -39,7 +39,6 @@ import h5py
 sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
 from config_loader import ConfigLoader
 
-
 class ExploreDB:
     """
     Connects to the TMS metadata SQLite database and HDF5 spectral file and
@@ -52,7 +51,7 @@ class ExploreDB:
 
         Parameters
         ----------
-        db_path             Path to metadata.db
+        db_path             Path to sp_metadata.db
         h5_path             Path to spectra.h5
         """
         self.db_path = str(db_path)
@@ -127,7 +126,7 @@ class ExploreDB:
         -------
         count               integer total spectrum count
         """
-        result = self.run_query("SELECT COUNT(*) FROM metadata")
+        result = self.run_query("SELECT COUNT(*) FROM sp_metadata")
         return result[0][0] if result else 0
 
     def count_unique_compounds(self):
@@ -138,7 +137,7 @@ class ExploreDB:
         -------
         count               integer unique CAS number count
         """
-        result = self.run_query("SELECT COUNT(DISTINCT casNO) FROM metadata")
+        result = self.run_query("SELECT COUNT(DISTINCT casNO) FROM sp_metadata")
         return result[0][0] if result else 0
 
     def get_replicate_counts(self):
@@ -150,7 +149,7 @@ class ExploreDB:
         replicates          dict mapping casNO -> spectrum count
         """
         results = self.run_query(
-            "SELECT casNO, COUNT(spID) FROM metadata GROUP BY casNO"
+            "SELECT casNO, COUNT(spID) FROM sp_metadata GROUP BY casNO"
         )
         return dict(results)
 
@@ -162,7 +161,7 @@ class ExploreDB:
         -------
         mws                 list of float MW values
         """
-        results = self.run_query("SELECT mw FROM metadata WHERE mw IS NOT NULL")
+        results = self.run_query("SELECT mw FROM sp_metadata WHERE mw IS NOT NULL")
         return [r[0] for r in results]
 
     def get_num_peaks_values(self):
@@ -173,7 +172,7 @@ class ExploreDB:
         -------
         peaks               list of int peak counts
         """
-        results = self.run_query("SELECT numPeaks FROM metadata WHERE numPeaks IS NOT NULL")
+        results = self.run_query("SELECT numPeaks FROM sp_metadata WHERE numPeaks IS NOT NULL")
         return [r[0] for r in results]
 
     def get_retention_indices(self):
@@ -190,7 +189,7 @@ class ExploreDB:
         values              list of float retention index values
         """
         results = self.run_query(
-            "SELECT retentionIndex FROM metadata WHERE retentionIndex IS NOT NULL"
+            "SELECT retentionIndex FROM sp_metadata WHERE retentionIndex IS NOT NULL"
         )
         values = []
         for (val,) in results:
@@ -217,7 +216,7 @@ class ExploreDB:
         rows                list of (formula, count) tuples sorted by count descending
         """
         return self.run_query(
-            "SELECT formula, COUNT(*) as n FROM metadata "
+            "SELECT formula, COUNT(*) as n FROM sp_metadata "
             "WHERE formula IS NOT NULL GROUP BY formula ORDER BY n DESC"
         )
 
@@ -234,7 +233,7 @@ class ExploreDB:
         rows                list of (spName, casNO, count) tuples
         """
         return self.run_query(
-            "SELECT spName, casNO, COUNT(spID) as n FROM metadata "
+            "SELECT spName, casNO, COUNT(spID) as n FROM sp_metadata "
             "GROUP BY casNO ORDER BY n DESC LIMIT ?",
             params=(n,)
         )
@@ -670,7 +669,7 @@ class ExploreDB:
         ax                  matplotlib Axes to draw on
         """
         rows = self.run_query(
-            "SELECT mw, numPeaks FROM metadata "
+            "SELECT mw, numPeaks FROM sp_metadata "
             "WHERE mw IS NOT NULL AND numPeaks IS NOT NULL"
         )
         if not rows:

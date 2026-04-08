@@ -4,10 +4,11 @@ C:\Jack\Extracted NIST\FragPath
 
 Plan is as follows:
 
-1. build SQL DB to organize .mol files and .MSP spectra
-2. use Morgan fingerprints to generate embeddings for the .mol files and place in a matrix
+1. build SQL DB to organize .mol files and .MSP spectra DONE
+2. use Morgan fingerprints to generate embeddings for the .mol files and place in a matrix 
 3. cluster matrix (HDBSCAN) and find strongest cluster to use as our dataest
     umap to reduce dimensionality
+    vary min_cluster_size and see what works best
     cluster metrics:
         Denisty-Based Clustering Validation (DBCV) - primary metric (maximize) specific to density based clustering methods
         Silhouette score - how similar each point is to its own cluster vs neightbors (maximize)

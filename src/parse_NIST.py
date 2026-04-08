@@ -38,7 +38,6 @@ import h5py
 import numpy as np
 import sqlite3
 
-
 # ---------------------------------------------------------------------------
 # .msp key normalization
 # ---------------------------------------------------------------------------
@@ -61,11 +60,9 @@ MSP_KEY_MAP = {
     "numpeaks":        "NUM PEAKS",
 }
 
-
 def _normalize_msp_key(raw_key: str) -> str:
     """Returns the canonical uppercase key for a raw .msp key string."""
     return MSP_KEY_MAP.get(raw_key.strip().lower(), raw_key.strip().upper())
-
 
 # ---------------------------------------------------------------------------
 # Main class
@@ -381,10 +378,10 @@ class ParseNIST:
     def build_DB(self, path):
         """
         Creates (or silently reuses if already present) a SQLite database at
-        path using the CREATE TABLE statement in metadata.sql.
+        path using the CREATE TABLE statement in sp_metadata.sql.
         """
         path     = Path(path)
-        sql_file = self.data_dir / "metadata.sql"
+        sql_file = self.data_dir / "spectra_metadata.sql"
 
         with open(sql_file, "r") as f:
             sql_script = f.read()
@@ -428,7 +425,7 @@ class ParseNIST:
         ordered_keys = list(column_map.keys())
         placeholders = ", ".join(["?"] * len(columns))
         sql          = (
-            f"INSERT INTO metadata ({', '.join(columns)}) "
+            f"INSERT INTO sp_metadata ({', '.join(columns)}) "
             f"VALUES ({placeholders})"
         )
 
