@@ -1,5 +1,4 @@
 """
-run_cluster_analysis.py
 
 Entry point for the clustering pipeline.  Edit the three sections below to
 control which stage runs and with what parameters.
@@ -19,6 +18,8 @@ Stages
 All output goes to the reports_dir specified in config.yaml.
 """
 
+# region Imports
+
 import sys
 from pathlib import Path
 
@@ -27,24 +28,24 @@ sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
 from config_loader import ConfigLoader
 from cluster_analysis import ClusterAnalysis
 
-# ---------------------------------------------------------------------------
-# Edit these to control which stages run
-# ---------------------------------------------------------------------------
+# endregion
 
-RUN_COARSE = True
+# region Stage and Parameter Control
+
+RUN_COARSE = False
 
 RUN_FINE   = False
-FINE_CS_MIN  = 20     # min_cluster_size lower bound
-FINE_CS_MAX  = 50     # min_cluster_size upper bound
+FINE_CS_MIN  = 65     # min_cluster_size lower bound
+FINE_CS_MAX  = 85     # min_cluster_size upper bound
 FINE_CS_STEP = 2      # min_cluster_size step size
-FINE_MS_MIN  = 5      # min_samples lower bound
-FINE_MS_MAX  = 30     # min_samples upper bound  (None = same as cs_max)
+FINE_MS_MIN  = 65     # min_samples lower bound
+FINE_MS_MAX  = 85     # min_samples upper bound  (None = same as cs_max)
 
-RUN_FINAL       = False
-FINAL_CS        = 32  # chosen min_cluster_size
-FINAL_MS        = 14  # chosen min_samples
+RUN_FINAL       = True
+FINAL_CS        = 69  # chosen min_cluster_size
+FINAL_MS        = 67  # chosen min_samples
 
-# ---------------------------------------------------------------------------
+# endregion
 
 def main():
     config_path = Path(__file__).resolve().parent.parent / "config.yaml"

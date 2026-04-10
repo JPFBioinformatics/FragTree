@@ -11,6 +11,8 @@ Plots produced:
 
 """
 
+# region Imports
+
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
@@ -18,6 +20,8 @@ sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
 from config_loader import ConfigLoader
 from explore_db import ExploreDB
 import matplotlib.pyplot as plt
+
+# endregion
 
 def main():
 
@@ -34,6 +38,7 @@ def main():
     # ------------------------------------------------------------------
     # Figure 1 — metadata plots (2x3)
     # ------------------------------------------------------------------
+
     fig1, axes1 = plt.subplots(2, 3, figsize=(22, 13))
     fig1.suptitle("TMS Reference Database — Metadata", fontsize=15)
     fig1.subplots_adjust(hspace=0.45, wspace=0.35)
@@ -52,6 +57,7 @@ def main():
     # ------------------------------------------------------------------
     # Figure 2 — spectral plots (3x3)
     # ------------------------------------------------------------------
+
     print("\nLoading all spectra for spectral plots...")
     all_spectra = db.load_all_spectra()
     print(f"  Loaded {len(all_spectra)} spectra\n")
@@ -78,7 +84,20 @@ def main():
     fig2.savefig(pdf2, bbox_inches="tight")
     print(f"Saved {pdf2}")
 
-    plt.show()
+    # ------------------------------------------------------------------
+    # Figure 3 — Structure Coverage Plots (1x2)
+    # ------------------------------------------------------------------
+
+    fig3, axes3 = plt.subplots(1, 2, figsize=(14, 6))
+    fig3.suptitle("TMS Reference Database — Mol Structure Coverage", fontsize=15)
+    fig3.subplots_adjust(wspace=0.35)
+
+    db.plot_mol_coverage(axes3[0])
+    db.plot_mol_coverage_by_replicates(axes3[1])
+
+    pdf3 = reports_dir / "tms_mol_coverage.pdf"
+    fig3.savefig(pdf3, bbox_inches="tight")
+    print(f"Saved {pdf3}")
 
 if __name__ == '__main__':
     main()

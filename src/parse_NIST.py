@@ -378,10 +378,10 @@ class ParseNIST:
     def build_DB(self, path):
         """
         Creates (or silently reuses if already present) a SQLite database at
-        path using the CREATE TABLE statement in sp_metadata.sql.
+        path using the CREATE TABLE statement in metadata.sql.
         """
         path     = Path(path)
-        sql_file = self.data_dir / "spectra_metadata.sql"
+        sql_file = self.data_dir / "metadata.sql"
 
         with open(sql_file, "r") as f:
             sql_script = f.read()
@@ -393,7 +393,7 @@ class ParseNIST:
 
     def populate_refDB(self, records, path):
         """
-        Inserts records into the metadata table of the SQLite database at path.
+        Inserts records into the spectra table of the SQLite database at path.
         Call this after write_to_hdf5() so that h5_ID, h5_file, and deriv are
         already present on each record dict.
 
@@ -425,7 +425,7 @@ class ParseNIST:
         ordered_keys = list(column_map.keys())
         placeholders = ", ".join(["?"] * len(columns))
         sql          = (
-            f"INSERT INTO sp_metadata ({', '.join(columns)}) "
+            f"INSERT INTO spectra ({', '.join(columns)}) "
             f"VALUES ({placeholders})"
         )
 

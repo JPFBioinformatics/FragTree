@@ -1,5 +1,4 @@
 """
-frag_tree.py
 
 Bipartite fragmentation tree for modeling all possible EI-MS fragments of a
 TMS-derivatized metabolite.
@@ -42,6 +41,8 @@ BondBreakNode expose all chemically relevant attributes as plain Python
 attributes so the GNN code can access them directly.
 """
 
+# region Imports
+
 from __future__ import annotations
 
 import uuid
@@ -52,10 +53,11 @@ from rdkit import Chem                                        # type: ignore
 from rdkit.Chem import Descriptors, rdMolDescriptors, AllChem # type: ignore
 from rdkit.Chem.rdchem import BondType                        # type: ignore
 
+# endregion
 
-# ---------------------------------------------------------------------------
+# region Electronetagivity Table
+
 # Electronegativity table (Pauling scale, most common elements in metabolites)
-# ---------------------------------------------------------------------------
 
 _ELECTRONEGATIVITY = {
     1:  2.20,   # H
@@ -64,7 +66,7 @@ _ELECTRONEGATIVITY = {
     7:  3.04,   # N
     8:  3.44,   # O
     9:  3.98,   # F
-    14: 1.90,   # Si  (important for TMS compounds)
+    14: 1.90,   # Si
     15: 2.19,   # P
     16: 2.58,   # S
     17: 3.16,   # Cl
@@ -74,15 +76,13 @@ _ELECTRONEGATIVITY = {
 
 _DEFAULT_EN = 2.20  # fallback for elements not in the table
 
-
 def _get_en(atomic_num: int) -> float:
     """Returns the Pauling electronegativity for an atomic number."""
     return _ELECTRONEGATIVITY.get(atomic_num, _DEFAULT_EN)
 
+# endregion
 
-# ---------------------------------------------------------------------------
-# Node classes
-# ---------------------------------------------------------------------------
+# region Node classes
 
 class FragmentNode:
     """
@@ -139,7 +139,6 @@ class FragmentNode:
             f"smiles={smiles[:30]})"
         )
 
-
 class BondBreakNode:
     """
     Represents a single bond cleavage event in the fragmentation tree.
@@ -193,7 +192,7 @@ class BondBreakNode:
     neutral_child_id    node_id of the neutral child FragmentNode
     """
 
-    # approximate covalent radii in angstroms (used for bond length estimation)
+    # approximate covalent radii in angstroms
     _COVALENT_RADIUS = {
         1:  0.31,   # H
         6:  0.76,   # C
@@ -280,7 +279,9 @@ class BondBreakNode:
             f"order={self.bond_order})"
         )
 
-    # -- private helpers -----------------------------------------------------
+# endregion
+
+    # region Helpers
 
     @staticmethod
     def _bond_order_numeric(bond_type: BondType) -> float:
@@ -358,10 +359,7 @@ class BondBreakNode:
         }
         return base - correction.get(self.bond_order, 0.0)
 
-
-# ---------------------------------------------------------------------------
-# FragmentationTree
-# ---------------------------------------------------------------------------
+    # endregion
 
 class FragmentationTree:
     """
@@ -398,9 +396,7 @@ class FragmentationTree:
         # eagerly build the full tree
         self._expand(self.root)
 
-    # -----------------------------------------------------------------------
-    # Public interface
-    # -----------------------------------------------------------------------
+    # region Public interface
 
     @property
     def n_fragments(self) -> int:
@@ -456,9 +452,9 @@ class FragmentationTree:
             f"  bond break nodes:{self.n_bond_breaks}\n"
         )
 
-    # -----------------------------------------------------------------------
-    # Tree construction (private)
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Tree construction
 
     def _register_fragment(self, node: FragmentNode):
         """Adds a FragmentNode to the lookup dict."""
@@ -588,10 +584,10 @@ class FragmentationTree:
 
         except Exception:
             return None, None
+        
+    # endregion
 
-    # -----------------------------------------------------------------------
-    # Path enumeration (private)
-    # -----------------------------------------------------------------------
+    # region Path enumeration
 
     def _dfs_paths(
         self,
@@ -619,3 +615,6 @@ class FragmentationTree:
                 path.pop()
 
             path.pop()
+
+    # endregion
+    

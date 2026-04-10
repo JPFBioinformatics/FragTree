@@ -17,3 +17,8 @@ Plan is as follows:
         Adjusted Rand Index (ARI) - how well cluster assignment agree with CAS no groupings (-1 bad 1 perfect), sensitive to number of clusters
         Adjusted Manual Information (AMI) - same as ARI but normalizes for cluster size distribution
 
+After clustering we will train model on three clusters - 2,5,25 for 3 views.  cluster 2 is large (416) with bad SSE but otherwise good scores, clusetr 5 is small (86) with 
+really good scores across the board, and cluster 25 is inbetween (163) with scores generally better than 5 and very close to 2.  We can also train on the full set and
+measure how good it did using something like top 10/5/3/1 recall where recall is based on cos similarity between generated spectra and true spectra (10 most simliar for
+top-10 recall, 5 for top-5 etc...)
+

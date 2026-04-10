@@ -5,8 +5,10 @@ raw_data:
 
 # paths to databases
 dbs:
-  db_path: C:\Jack\CSD 491\FragTree\databases\reference\tms\metadata.db
-  h5_path: C:\Jack\CSD 491\FragTree\databases\reference\tms\spectra.h5
+  db_path: C:\Jack\FragTree\databases\reference\tms\metadata.db
+  h5_path: C:\Jack\FragTree\databases\reference\tms\spectra.h5
+  mol_h5_path: C:\Jack\FragTree\databases\reference\tms\structures.h5
 
+# path to outputs
 outputs:
-  reports_dir: C:\Jack\CSD 491\FragTree\databases\reports
+  reports_dir: C:\Jack\FragTree\databases\reports

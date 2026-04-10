@@ -27,7 +27,7 @@ def main():
     nist = ParseNIST(db_dir="tms")
 
     print("Building database...")
-    nist.build_DB(nist.tms_dir / "spectra_metadata.db")
+    nist.build_DB(nist.tms_dir / "metadata.db")
     print("Database ready.\n")
 
     # ------------------------------------------------------------------
@@ -66,7 +66,7 @@ def main():
     # 6. Populate metadata database
     # ------------------------------------------------------------------
     print("\nPopulating database...")
-    nist.populate_refDB(tms, nist.tms_dir / "spectra_metadata.db")
+    nist.populate_refDB(tms, nist.tms_dir / "metadata.db")
 
     print("\nDone.")
 

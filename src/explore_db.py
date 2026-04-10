@@ -1,5 +1,4 @@
 """
-explore_db.py
 
 Class and script for exploring the TMS reference database visually.
 Run this file directly to display all plots across two figure windows and
@@ -23,6 +22,8 @@ Spectral plots (Figure 2):
     13. Fragment count vs MW scatter         — peaks per spectrum vs molecular weight
 """
 
+# region Imports
+
 import re
 import sqlite3
 import sys
@@ -37,7 +38,10 @@ import h5py
 
 # path setup so this can be run from the scripts/ directory
 sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
+
 from config_loader import ConfigLoader
+
+# endregion
 
 class ExploreDB:
     """
@@ -51,15 +55,13 @@ class ExploreDB:
 
         Parameters
         ----------
-        db_path             Path to sp_metadata.db
+        db_path             Path to metadata.db
         h5_path             Path to spectra.h5
         """
         self.db_path = str(db_path)
         self.h5_path = str(h5_path)
 
-    # -----------------------------------------------------------------------
-    # Connection and query helpers
-    # -----------------------------------------------------------------------
+    # region Connection and query helpers
 
     def connect(self):
         """
@@ -114,9 +116,9 @@ class ExploreDB:
         finally:
             conn.close()
 
-    # -----------------------------------------------------------------------
-    # Metadata queries
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Metadata queries
 
     def count_spectra(self):
         """
@@ -126,7 +128,7 @@ class ExploreDB:
         -------
         count               integer total spectrum count
         """
-        result = self.run_query("SELECT COUNT(*) FROM sp_metadata")
+        result = self.run_query("SELECT COUNT(*) FROM spectra")
         return result[0][0] if result else 0
 
     def count_unique_compounds(self):
@@ -137,7 +139,7 @@ class ExploreDB:
         -------
         count               integer unique CAS number count
         """
-        result = self.run_query("SELECT COUNT(DISTINCT casNO) FROM sp_metadata")
+        result = self.run_query("SELECT COUNT(DISTINCT casNO) FROM spectra")
         return result[0][0] if result else 0
 
     def get_replicate_counts(self):
@@ -149,7 +151,7 @@ class ExploreDB:
         replicates          dict mapping casNO -> spectrum count
         """
         results = self.run_query(
-            "SELECT casNO, COUNT(spID) FROM sp_metadata GROUP BY casNO"
+            "SELECT casNO, COUNT(spID) FROM spectra GROUP BY casNO"
         )
         return dict(results)
 
@@ -161,7 +163,7 @@ class ExploreDB:
         -------
         mws                 list of float MW values
         """
-        results = self.run_query("SELECT mw FROM sp_metadata WHERE mw IS NOT NULL")
+        results = self.run_query("SELECT mw FROM spectra WHERE mw IS NOT NULL")
         return [r[0] for r in results]
 
     def get_num_peaks_values(self):
@@ -172,7 +174,7 @@ class ExploreDB:
         -------
         peaks               list of int peak counts
         """
-        results = self.run_query("SELECT numPeaks FROM sp_metadata WHERE numPeaks IS NOT NULL")
+        results = self.run_query("SELECT numPeaks FROM spectra WHERE numPeaks IS NOT NULL")
         return [r[0] for r in results]
 
     def get_retention_indices(self):
@@ -189,7 +191,7 @@ class ExploreDB:
         values              list of float retention index values
         """
         results = self.run_query(
-            "SELECT retentionIndex FROM sp_metadata WHERE retentionIndex IS NOT NULL"
+            "SELECT retentionIndex FROM spectra WHERE retentionIndex IS NOT NULL"
         )
         values = []
         for (val,) in results:
@@ -216,7 +218,7 @@ class ExploreDB:
         rows                list of (formula, count) tuples sorted by count descending
         """
         return self.run_query(
-            "SELECT formula, COUNT(*) as n FROM sp_metadata "
+            "SELECT formula, COUNT(*) as n FROM spectra "
             "WHERE formula IS NOT NULL GROUP BY formula ORDER BY n DESC"
         )
 
@@ -233,14 +235,14 @@ class ExploreDB:
         rows                list of (spName, casNO, count) tuples
         """
         return self.run_query(
-            "SELECT spName, casNO, COUNT(spID) as n FROM sp_metadata "
+            "SELECT spName, casNO, COUNT(spID) as n FROM spectra "
             "GROUP BY casNO ORDER BY n DESC LIMIT ?",
             params=(n,)
         )
 
-    # -----------------------------------------------------------------------
-    # Spectral data loaders
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Spectral data loaders
 
     def load_all_spectra(self):
         """
@@ -308,9 +310,9 @@ class ExploreDB:
 
         return dict(occurrence), dict(summed_abundance)
 
-    # -----------------------------------------------------------------------
-    # Metadata plots
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Metadata plots
 
     def plot_replicate_histogram(self, ax):
         """
@@ -491,9 +493,9 @@ class ExploreDB:
         ax.set_xlabel("Number of spectra")
         ax.tick_params(axis="y", labelsize=8)
 
-    # -----------------------------------------------------------------------
-    # Spectral plots
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Spectral plots
 
     def plot_fragment_occurrence(self, ax, occurrence, total_spectra, n=40):
         """
@@ -669,7 +671,7 @@ class ExploreDB:
         ax                  matplotlib Axes to draw on
         """
         rows = self.run_query(
-            "SELECT mw, numPeaks FROM sp_metadata "
+            "SELECT mw, numPeaks FROM spectra "
             "WHERE mw IS NOT NULL AND numPeaks IS NOT NULL"
         )
         if not rows:
@@ -726,3 +728,97 @@ class ExploreDB:
         )
         ax.set_xlabel("Cosine similarity")
         ax.set_ylabel("Number of pairs")
+
+    # endregion
+
+    # region Structure plots
+
+    def plot_mol_coverage(self, ax):
+        """
+        Bar chart showing how many unique CAS numbers have a mol structure
+        vs how many do not.  Annotates the coverage percentage.
+
+        Parameters
+        ----------
+        ax                  matplotlib Axes to draw on
+        """
+        # total unique CAS numbers in spectra table
+        total = self.run_query("SELECT COUNT(DISTINCT casNO) FROM spectra")
+        n_total = total[0][0] if total else 0
+
+        # unique CAS numbers that have at least one mol entry
+        covered = self.run_query(
+            "SELECT COUNT(DISTINCT casNO) FROM molecule"
+        )
+        n_covered = covered[0][0] if covered else 0
+        n_missing = n_total - n_covered
+        pct = 100 * n_covered / n_total if n_total > 0 else 0
+
+        ax.bar(["Has mol structure", "No mol structure"],
+            [n_covered, n_missing],
+            color=["#0D7377", "#C44E52"],
+            edgecolor="white", linewidth=0.4)
+        ax.set_title(
+            f"Mol structure coverage\n"
+            f"{n_covered:,} / {n_total:,} unique compounds ({pct:.1f}%)",
+            fontsize=11, pad=10
+        )
+        ax.set_ylabel("Number of compounds")
+        for i, v in enumerate([n_covered, n_missing]):
+            ax.text(i, v + n_total * 0.01, f"{v:,}",
+                    ha="center", fontsize=10)
+
+    def plot_mol_coverage_by_replicates(self, ax):
+        """
+        Grouped bar chart showing mol structure coverage split by whether a
+        compound has 1 spectrum or 2+ spectra.  Well-replicated compounds
+        being covered structurally is a good sign for training data quality.
+
+        Parameters
+        ----------
+        ax                  matplotlib Axes to draw on
+        """
+        # CAS numbers with exactly 1 spectrum, split by mol coverage
+        rows = self.run_query("""
+            SELECT
+                CASE WHEN rep.n = 1 THEN '1 spectrum' ELSE '2+ spectra' END as group_,
+                CASE WHEN m.casNO IS NOT NULL THEN 'Has mol' ELSE 'No mol' END as covered,
+                COUNT(*) as n
+            FROM (
+                SELECT casNO, COUNT(spID) as n
+                FROM spectra
+                GROUP BY casNO
+            ) rep
+            LEFT JOIN (
+                SELECT DISTINCT casNO FROM molecule
+            ) m ON m.casNO = rep.casNO
+            GROUP BY group_, covered
+        """)
+
+        if not rows:
+            ax.text(0.5, 0.5, "No data", ha="center", va="center")
+            return
+
+        # parse into groups
+        data: dict = {"1 spectrum": {}, "2+ spectra": {}}
+        for group_, covered, n in rows:
+            data[group_][covered] = n
+
+        groups   = ["1 spectrum", "2+ spectra"]
+        has_mol  = [data[g].get("Has mol", 0) for g in groups]
+        no_mol   = [data[g].get("No mol",  0) for g in groups]
+
+        x     = range(len(groups))
+        width = 0.35
+        ax.bar([i - width/2 for i in x], has_mol, width,
+            label="Has mol", color="#0D7377", edgecolor="white", linewidth=0.4)
+        ax.bar([i + width/2 for i in x], no_mol, width,
+            label="No mol",  color="#C44E52", edgecolor="white", linewidth=0.4)
+
+        ax.set_xticks(list(x))
+        ax.set_xticklabels(groups)
+        ax.set_title("Mol coverage by replicate count", fontsize=11, pad=10)
+        ax.set_ylabel("Number of compounds")
+        ax.legend(fontsize=9)
+
+    # endregion

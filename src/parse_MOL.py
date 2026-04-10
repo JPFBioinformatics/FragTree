@@ -1,4 +1,5 @@
 """
+
 Class-based pipeline for converting NIST .mol files to RDKit Mol objects,
 storing them as gzip-compressed binary datasets in HDF5, and populating the
 molecule and sp_mol_map tables in the reference SQLite database.
@@ -14,7 +15,10 @@ Intended usage
     cfg = ConfigLoader(config_path)
     db  = MolDB(cfg)
     db.run()
+
 """
+
+# region Imports
 
 import re
 import sys
@@ -23,18 +27,23 @@ import logging
 from pathlib import Path
 from datetime import datetime
 
+sys.path.append(str(Path(__file__).resolve().parent.parent / "src"))
+
 import h5py
 import numpy as np
 from rdkit import Chem
-from rdkit import RDLogger  # type: ignore
+from rdkit import RDLogger
+from rdkit.Chem import rdMolDescriptors
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib import colors
+from utils import to_hill_notation
 
 RDLogger.DisableLog("rdApp.*")  # type: ignore
 
+# endregion
 
 class ParseMOL:
     """
@@ -52,10 +61,10 @@ class ParseMOL:
         cfg         ConfigLoader instance with mol_dir, db_path, mol_h5_path,
                     and reports_dir keys defined in config.yaml
         """
-        self.mol_dir     = cfg.get_path("mol_dir",     must_exist=True)
-        self.db_path     = str(cfg.get_path("db_path", must_exist=True))
-        self.mol_h5_path = str(cfg.get_path("mol_h5_path"))
-        self.reports_dir = cfg.get_path("reports_dir")
+        self.mol_dir     = cfg.get_path("raw_data","mol_dir", must_exist=True)
+        self.db_path     = str(cfg.get_path("dbs","db_path", must_exist=True))
+        self.mol_h5_path = str(cfg.get_path("dbs","mol_h5_path"))
+        self.reports_dir = cfg.get_path("outputs","reports_dir")
         self.reports_dir.mkdir(parents=True, exist_ok=True)
 
         # logging — writes to both console and a log file in reports_dir
@@ -73,9 +82,7 @@ class ParseMOL:
         # counters and failure log reset on each run() call
         self._reset_stats()
 
-    # -----------------------------------------------------------------------
     # Public entry point
-    # -----------------------------------------------------------------------
 
     def run(self):
         """
@@ -101,9 +108,7 @@ class ParseMOL:
         self._log_summary()
         self._write_report()
 
-    # -----------------------------------------------------------------------
     # CAS extraction
-    # -----------------------------------------------------------------------
 
     def _extract_cas(self, mol_file: Path) -> str | None:
         """
@@ -124,9 +129,7 @@ class ParseMOL:
         except Exception:
             return None
 
-    # -----------------------------------------------------------------------
-    # Database helpers
-    # -----------------------------------------------------------------------
+    # region Database helpers
 
     def _connect(self):
         """Returns (conn, cursor) for the SQLite database."""
@@ -184,9 +187,9 @@ class ParseMOL:
             (sp_id, mol_id)
         )
 
-    # -----------------------------------------------------------------------
+    # endregion
+
     # File discovery
-    # -----------------------------------------------------------------------
 
     def _discover_mol_files(self) -> list:
         """
@@ -204,18 +207,18 @@ class ParseMOL:
         )
         return files
 
-    # -----------------------------------------------------------------------
     # Core processing loop
-    # -----------------------------------------------------------------------
 
     def _process_files(self, mol_files: list, valid_cas: set):
         """
         Iterates over all discovered .mol files, parses each one with RDKit,
         serializes to binary, writes to HDF5, and inserts database rows.
 
-        Commits to the database every 5,000 files to keep transaction size
-        manageable.
+        Only mol files that pass both the TMS group check and a formula match
+        against the spectra table are stored.  Commits every 5,000 files to
+        keep transaction size manageable.
         """
+
         conn, cursor = self._connect()
         seen_cas     = {}  # casNO -> molID, tracks duplicates within this run
 
@@ -254,6 +257,28 @@ class ParseMOL:
                     self.log.warning(msg)
                     continue
 
+                # skip if no valid TMS group present
+                if not self._has_tms_group(mol):
+                    self.stats["n_no_tms"] += 1
+                    continue
+
+                # compute formula from mol and normalize to Hill notation
+                # then match against spectra table to find exact derivative partner
+                mol_formula = to_hill_notation(
+                    rdMolDescriptors.CalcMolFormula(mol)
+                )
+                sp_ids = self._get_sp_ids_for_cas_and_formula(cursor, cas, mol_formula)
+
+                # skip mol files with no matching spectrum — means this
+                # derivatization state is not represented in our spectra table
+                if not sp_ids:
+                    self.stats["n_no_formula_match"] += 1
+                    self.log.debug(
+                        f"[NO FORMULA MATCH]  CAS {cas}  "
+                        f"formula {mol_formula}  {mol_file}"
+                    )
+                    continue
+
                 # serialize to binary and convert to uint8 array for HDF5
                 mol_binary = mol.ToBinary()
                 arr        = np.frombuffer(mol_binary, dtype=np.uint8)
@@ -271,8 +296,7 @@ class ParseMOL:
                     compression_opts = 4,
                 )
 
-                # link to all matching spectra
-                sp_ids = self._get_sp_ids_for_cas(cursor, cas)
+                # link to matched spectra only
                 for sp_id in sp_ids:
                     self._insert_sp_mol_map(cursor, sp_id, mol_id)
                     self.stats["n_map_rows"] += 1
@@ -286,9 +310,7 @@ class ParseMOL:
         elapsed = (datetime.now() - self.start_time).total_seconds()
         self.stats["run_duration_seconds"] = elapsed
 
-    # -----------------------------------------------------------------------
-    # Reporting
-    # -----------------------------------------------------------------------
+    # region Reporting
 
     def _log_summary(self):
         """Prints the run summary to the log."""
@@ -352,6 +374,7 @@ class ParseMOL:
             ["Duplicate CAS numbers seen",      f"{s['n_duplicate_cas']:,}"],
             ["Molecule rows inserted",          f"{s['n_inserted']:,}"],
             ["sp_mol_map rows inserted",        f"{s['n_map_rows']:,}"],
+            ["No formula match in spectra DB",  f"{s['n_no_formula_match']:,}"],
             ["Run time",                        f"{mins}m {secs}s"],
         ]
         tbl = Table(table_data, colWidths=[3.5 * inch, 2.5 * inch])
@@ -404,9 +427,56 @@ class ParseMOL:
         doc.build(story)
         self.log.info(f"Summary report saved to {output_path}")
 
-    # -----------------------------------------------------------------------
-    # Internal helpers
-    # -----------------------------------------------------------------------
+    # endregion
+
+    # region Internal Helpers
+
+    def _has_tms_group(self, mol) -> bool:
+        """
+        Returns True if the mol contains at least one trimethylsilyl group.
+
+        A TMS group is defined as a silicon atom bonded to exactly three
+        methyl carbons (carbon with degree 1 and 3 attached hydrogens).
+        This filters out other silicon-containing compounds like TBDMS
+        or siloxanes that would otherwise match on Si presence alone.
+        """
+        for atom in mol.GetAtoms():
+            if atom.GetAtomicNum() != 14:  # not silicon
+                continue
+
+            # get all carbon neighbors of this Si
+            carbon_neighbors = [
+                n for n in atom.GetNeighbors()
+                if n.GetAtomicNum() == 6
+            ]
+
+            # count how many of those carbons are methyl groups
+            methyl_count = sum(
+                1 for c in carbon_neighbors
+                if c.GetDegree() == 1 and c.GetTotalNumHs() == 3
+            )
+
+            if methyl_count >= 3:
+                return True
+
+        return False
+
+    def _get_sp_ids_for_cas_and_formula(self, cursor, cas_no: str, formula: str) -> list:
+        """
+        Returns spID values matching both casNO and molecular formula.
+        Formula is matched in Hill notation so both sides are normalized
+        before comparison.
+        """
+        cursor.execute(
+            "SELECT spID, formula FROM spectra WHERE casNO = ?", (cas_no,)
+        )
+        rows = cursor.fetchall()
+
+        # return formula normailzed to Hill notation
+        return [
+            sp_id for sp_id, sp_formula in rows
+            if to_hill_notation(sp_formula) == formula
+        ]
 
     def _reset_stats(self):
         """Resets all run counters and the failure log."""
@@ -419,7 +489,11 @@ class ParseMOL:
             "n_duplicate_cas":      0,
             "n_inserted":           0,
             "n_map_rows":           0,
+            "n_no_tms":             0,
+            "n_no_forumla_mathc":   0,
             "run_duration_seconds": 0.0,
         }
         self.skipped_log: list = []
-        self.start_time        = datetime.now()
+        self.start_time = datetime.now()
+
+    # endregion
