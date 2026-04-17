@@ -1,6 +1,9 @@
 # data — licensed, not for redistribution
 databases/reference/
 
+# large generated files — rebuild locally
+*.pkl
+
 # python
 __pycache__/
 *.py[cod]

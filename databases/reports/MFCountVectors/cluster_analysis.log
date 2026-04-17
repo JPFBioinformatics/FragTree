@@ -1,0 +1,436 @@
+2026-04-14 11:05:48,894  INFO  === Grid search: Coarse Grid Search Report ===
+2026-04-14 11:05:48,894  INFO  Loading mol objects and computing fingerprints...
+2026-04-14 11:05:55,997  INFO    Loaded 30,494 molecules  (0 skipped)
+2026-04-14 11:05:56,025  INFO  Running UMAP  (n_neighbors=15, min_dist=0.1, metric=cosine)...
+2026-04-14 11:06:25,235  INFO    UMAP complete
+2026-04-14 11:06:32,254  INFO    cs=5 ms=5  DBCV=0.2193  sil=0.5013  noise=0.346  persist=0.0035  bss_tss=0.7057  k=977
+2026-04-14 11:06:37,601  INFO    cs=15 ms=5  DBCV=0.2463  sil=0.5123  noise=0.329  persist=0.0043  bss_tss=0.7213  k=435
+2026-04-14 11:06:41,985  INFO    cs=15 ms=15  DBCV=0.2326  sil=0.4983  noise=0.405  persist=0.0073  bss_tss=0.6492  k=269
+2026-04-14 11:06:47,266  INFO    cs=25 ms=5  DBCV=0.2496  sil=0.4926  noise=0.337  persist=0.0318  bss_tss=0.7023  k=278
+2026-04-14 11:06:57,135  INFO    cs=25 ms=15  DBCV=0.1106  sil=0.1946  noise=0.098  persist=0.0462  bss_tss=0.5853  k=75
+2026-04-14 11:07:07,036  INFO    cs=25 ms=25  DBCV=0.1148  sil=0.1950  noise=0.095  persist=0.0664  bss_tss=0.5965  k=65
+2026-04-14 11:07:12,154  INFO    cs=35 ms=5  DBCV=0.2540  sil=0.4683  noise=0.345  persist=0.0793  bss_tss=0.7048  k=195
+2026-04-14 11:07:21,957  INFO    cs=35 ms=15  DBCV=0.0994  sil=0.1900  noise=0.099  persist=0.1074  bss_tss=0.5761  k=65
+2026-04-14 11:07:32,172  INFO    cs=35 ms=25  DBCV=0.0890  sil=0.1927  noise=0.078  persist=0.1055  bss_tss=0.6104  k=49
+2026-04-14 11:07:32,172  INFO    Progress: 10 / 100
+2026-04-14 11:07:42,244  INFO    cs=35 ms=35  DBCV=0.0931  sil=0.1943  noise=0.084  persist=0.1046  bss_tss=0.5997  k=44
+2026-04-14 11:07:47,409  INFO    cs=45 ms=5  DBCV=0.2623  sil=0.4552  noise=0.341  persist=0.0806  bss_tss=0.6829  k=151
+2026-04-14 11:07:57,538  INFO    cs=45 ms=15  DBCV=0.0720  sil=0.1701  noise=0.078  persist=0.1188  bss_tss=0.6027  k=46
+2026-04-14 11:08:08,185  INFO    cs=45 ms=25  DBCV=0.1767  sil=0.1776  noise=0.051  persist=0.1379  bss_tss=0.6702  k=29
+2026-04-14 11:08:18,905  INFO    cs=45 ms=35  DBCV=0.1403  sil=0.1698  noise=0.047  persist=0.1290  bss_tss=0.6766  k=26
+2026-04-14 11:08:30,167  INFO    cs=45 ms=45  DBCV=0.0522  sil=0.1617  noise=0.021  persist=0.1516  bss_tss=0.7221  k=12
+2026-04-14 11:08:39,724  INFO    cs=55 ms=5  DBCV=0.2703  sil=0.0400  noise=0.101  persist=0.1435  bss_tss=0.6659  k=49
+2026-04-14 11:08:50,237  INFO    cs=55 ms=15  DBCV=0.0816  sil=0.1574  noise=0.057  persist=0.1888  bss_tss=0.6571  k=25
+2026-04-14 11:09:00,821  INFO    cs=55 ms=25  DBCV=0.1011  sil=0.1795  noise=0.054  persist=0.1628  bss_tss=0.6591  k=26
+2026-04-14 11:09:11,515  INFO    cs=55 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1615  bss_tss=0.6624  k=22
+2026-04-14 11:09:11,515  INFO    Progress: 20 / 100
+2026-04-14 11:09:22,727  INFO    cs=55 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1924  bss_tss=0.7133  k=11
+2026-04-14 11:09:34,141  INFO    cs=55 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.1964  bss_tss=0.7308  k=8
+2026-04-14 11:09:44,466  INFO    cs=65 ms=5  DBCV=0.1506  sil=0.1914  noise=0.081  persist=0.1766  bss_tss=0.5898  k=31
+2026-04-14 11:09:55,216  INFO    cs=65 ms=15  DBCV=0.0645  sil=0.1616  noise=0.061  persist=0.1988  bss_tss=0.6469  k=26
+2026-04-14 11:10:05,957  INFO    cs=65 ms=25  DBCV=0.1011  sil=0.1795  noise=0.054  persist=0.1822  bss_tss=0.6591  k=26
+2026-04-14 11:10:16,572  INFO    cs=65 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1908  bss_tss=0.6624  k=22
+2026-04-14 11:10:27,820  INFO    cs=65 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.2128  bss_tss=0.7133  k=11
+2026-04-14 11:10:39,189  INFO    cs=65 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2300  bss_tss=0.7308  k=8
+2026-04-14 11:10:50,121  INFO    cs=65 ms=65  DBCV=0.2074  sil=0.2122  noise=0.055  persist=0.1984  bss_tss=0.6331  k=12
+2026-04-14 11:11:00,164  INFO    cs=75 ms=5  DBCV=0.1489  sil=0.3037  noise=0.083  persist=0.1776  bss_tss=0.5887  k=30
+2026-04-14 11:11:00,164  INFO    Progress: 30 / 100
+2026-04-14 11:11:11,636  INFO    cs=75 ms=15  DBCV=0.2035  sil=0.2601  noise=0.010  persist=0.2740  bss_tss=0.7389  k=10
+2026-04-14 11:11:22,294  INFO    cs=75 ms=25  DBCV=0.0760  sil=0.2854  noise=0.053  persist=0.1700  bss_tss=0.6575  k=24
+2026-04-14 11:11:33,645  INFO    cs=75 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2357  bss_tss=0.7207  k=10
+2026-04-14 11:11:44,887  INFO    cs=75 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2307  bss_tss=0.7112  k=10
+2026-04-14 11:11:56,390  INFO    cs=75 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2723  bss_tss=0.7291  k=7
+2026-04-14 11:12:07,795  INFO    cs=75 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2606  bss_tss=0.7225  k=7
+2026-04-14 11:12:19,145  INFO    cs=75 ms=75  DBCV=0.2397  sil=0.3171  noise=0.022  persist=0.2624  bss_tss=0.7208  k=7
+2026-04-14 11:12:30,413  INFO    cs=85 ms=5  DBCV=0.0911  sil=0.2541  noise=0.017  persist=0.2175  bss_tss=0.7311  k=11
+2026-04-14 11:12:41,916  INFO    cs=85 ms=15  DBCV=0.2035  sil=0.2601  noise=0.010  persist=0.2559  bss_tss=0.7389  k=10
+2026-04-14 11:12:53,239  INFO    cs=85 ms=25  DBCV=0.0339  sil=0.2457  noise=0.017  persist=0.2196  bss_tss=0.7216  k=11
+2026-04-14 11:12:53,239  INFO    Progress: 40 / 100
+2026-04-14 11:13:04,642  INFO    cs=85 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2216  bss_tss=0.7207  k=10
+2026-04-14 11:13:15,931  INFO    cs=85 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2145  bss_tss=0.7112  k=10
+2026-04-14 11:13:27,091  INFO    cs=85 ms=55  DBCV=0.1488  sil=0.2657  noise=0.031  persist=0.2101  bss_tss=0.6909  k=11
+2026-04-14 11:13:38,523  INFO    cs=85 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2589  bss_tss=0.7225  k=7
+2026-04-14 11:13:49,867  INFO    cs=85 ms=75  DBCV=0.2397  sil=0.3171  noise=0.022  persist=0.2615  bss_tss=0.7208  k=7
+2026-04-14 11:14:01,218  INFO    cs=85 ms=85  DBCV=0.2389  sil=0.3175  noise=0.023  persist=0.2625  bss_tss=0.7204  k=7
+2026-04-14 11:14:11,689  INFO    cs=95 ms=5  DBCV=0.1017  sil=0.1080  noise=0.051  persist=0.1956  bss_tss=0.7868  k=16
+2026-04-14 11:14:23,070  INFO    cs=95 ms=15  DBCV=0.2020  sil=0.2607  noise=0.013  persist=0.2590  bss_tss=0.7310  k=9
+2026-04-14 11:14:34,344  INFO    cs=95 ms=25  DBCV=0.0310  sil=0.2460  noise=0.020  persist=0.2253  bss_tss=0.7136  k=10
+2026-04-14 11:14:45,705  INFO    cs=95 ms=35  DBCV=0.2937  sil=0.2644  noise=0.020  persist=0.2496  bss_tss=0.7128  k=9
+2026-04-14 11:14:45,705  INFO    Progress: 50 / 100
+2026-04-14 11:14:57,034  INFO    cs=95 ms=45  DBCV=0.1407  sil=0.3046  noise=0.020  persist=0.2471  bss_tss=0.7113  k=8
+2026-04-14 11:15:08,675  INFO    cs=95 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2748  bss_tss=0.7291  k=7
+2026-04-14 11:15:20,070  INFO    cs=95 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2644  bss_tss=0.7225  k=7
+2026-04-14 11:15:31,329  INFO    cs=95 ms=75  DBCV=0.1215  sil=0.2771  noise=0.028  persist=0.2579  bss_tss=0.7083  k=8
+2026-04-14 11:15:42,681  INFO    cs=95 ms=85  DBCV=0.2389  sil=0.3175  noise=0.023  persist=0.2693  bss_tss=0.7204  k=7
+2026-04-14 11:15:54,020  INFO    cs=95 ms=95  DBCV=0.2363  sil=0.3177  noise=0.023  persist=0.2730  bss_tss=0.7197  k=7
+2026-04-14 11:15:54,845  INFO  Grid report saved to C:\Jack\FragTree\databases\reports\coarse_grid_report.pdf2026-04-14 11:31:14,229  INFO  === Grid search: Fine Grid Search Report ===
+2026-04-14 11:31:14,229  INFO  Loading mol objects and computing fingerprints...
+2026-04-14 11:31:20,061  INFO    Loaded 30,494 molecules  (0 skipped)
+2026-04-14 11:31:20,102  INFO  Running UMAP  (n_neighbors=15, min_dist=0.1, metric=cosine)...
+2026-04-14 11:31:48,941  INFO    UMAP complete
+2026-04-14 11:32:01,425  INFO    cs=45 ms=35  DBCV=0.1403  sil=0.1698  noise=0.047  persist=0.1290  bss_tss=0.6766  k=26
+2026-04-14 11:32:13,027  INFO    cs=45 ms=37  DBCV=0.1256  sil=0.1588  noise=0.017  persist=0.1371  bss_tss=0.7318  k=14
+2026-04-14 11:32:24,398  INFO    cs=45 ms=39  DBCV=0.0926  sil=0.1598  noise=0.019  persist=0.1417  bss_tss=0.7278  k=14
+2026-04-14 11:32:36,246  INFO    cs=45 ms=41  DBCV=0.0954  sil=0.1604  noise=0.019  persist=0.1416  bss_tss=0.7261  k=14
+2026-04-14 11:32:48,001  INFO    cs=45 ms=43  DBCV=0.0541  sil=0.1615  noise=0.019  persist=0.1427  bss_tss=0.7272  k=13
+2026-04-14 11:33:00,893  INFO    cs=45 ms=45  DBCV=0.0522  sil=0.1617  noise=0.021  persist=0.1516  bss_tss=0.7221  k=12
+2026-04-14 11:33:12,871  INFO    cs=47 ms=35  DBCV=0.1374  sil=0.1699  noise=0.050  persist=0.1425  bss_tss=0.6702  k=24
+2026-04-14 11:33:26,321  INFO    cs=47 ms=37  DBCV=0.1242  sil=0.1578  noise=0.018  persist=0.1545  bss_tss=0.7288  k=13
+2026-04-14 11:33:40,312  INFO    cs=47 ms=39  DBCV=0.0911  sil=0.1588  noise=0.020  persist=0.1574  bss_tss=0.7248  k=13
+2026-04-14 11:33:40,313  INFO    Progress: 10 / 231
+2026-04-14 11:33:52,575  INFO    cs=47 ms=41  DBCV=0.0240  sil=0.1631  noise=0.019  persist=0.1584  bss_tss=0.7268  k=12
+2026-04-14 11:34:05,059  INFO    cs=47 ms=43  DBCV=0.0527  sil=0.1615  noise=0.020  persist=0.1599  bss_tss=0.7242  k=12
+2026-04-14 11:34:17,012  INFO    cs=47 ms=45  DBCV=0.0522  sil=0.1617  noise=0.021  persist=0.1585  bss_tss=0.7221  k=12
+2026-04-14 11:34:29,609  INFO    cs=47 ms=47  DBCV=0.0570  sil=0.1621  noise=0.022  persist=0.1599  bss_tss=0.7193  k=12
+2026-04-14 11:34:41,392  INFO    cs=49 ms=35  DBCV=0.0661  sil=0.1737  noise=0.050  persist=0.1447  bss_tss=0.6712  k=23
+2026-04-14 11:34:53,763  INFO    cs=49 ms=37  DBCV=0.0535  sil=0.1616  noise=0.018  persist=0.1657  bss_tss=0.7305  k=12
+2026-04-14 11:35:05,906  INFO    cs=49 ms=39  DBCV=0.0212  sil=0.1625  noise=0.019  persist=0.1650  bss_tss=0.7282  k=12
+2026-04-14 11:35:17,724  INFO    cs=49 ms=41  DBCV=0.0240  sil=0.1631  noise=0.019  persist=0.1639  bss_tss=0.7268  k=12
+2026-04-14 11:35:29,592  INFO    cs=49 ms=43  DBCV=0.0527  sil=0.1615  noise=0.020  persist=0.1657  bss_tss=0.7242  k=12
+2026-04-14 11:35:41,326  INFO    cs=49 ms=45  DBCV=0.0522  sil=0.1617  noise=0.021  persist=0.1661  bss_tss=0.7221  k=12
+2026-04-14 11:35:41,326  INFO    Progress: 20 / 231
+2026-04-14 11:35:53,226  INFO    cs=49 ms=47  DBCV=0.0570  sil=0.1621  noise=0.022  persist=0.1706  bss_tss=0.7193  k=12
+2026-04-14 11:36:04,976  INFO    cs=49 ms=49  DBCV=0.1761  sil=0.2027  noise=0.022  persist=0.1831  bss_tss=0.7186  k=10
+2026-04-14 11:36:16,926  INFO    cs=51 ms=35  DBCV=0.0661  sil=0.1737  noise=0.050  persist=0.1478  bss_tss=0.6712  k=23
+2026-04-14 11:36:29,226  INFO    cs=51 ms=37  DBCV=0.0535  sil=0.1616  noise=0.018  persist=0.1731  bss_tss=0.7305  k=12
+2026-04-14 11:36:44,276  INFO    cs=51 ms=39  DBCV=0.0212  sil=0.1625  noise=0.019  persist=0.1628  bss_tss=0.7282  k=12
+2026-04-14 11:36:57,442  INFO    cs=51 ms=41  DBCV=0.0240  sil=0.1631  noise=0.019  persist=0.1695  bss_tss=0.7268  k=12
+2026-04-14 11:37:10,888  INFO    cs=51 ms=43  DBCV=0.0527  sil=0.1615  noise=0.020  persist=0.1679  bss_tss=0.7242  k=12
+2026-04-14 11:37:23,376  INFO    cs=51 ms=45  DBCV=0.0522  sil=0.1617  noise=0.021  persist=0.1712  bss_tss=0.7221  k=12
+2026-04-14 11:37:36,592  INFO    cs=51 ms=47  DBCV=0.0570  sil=0.1621  noise=0.022  persist=0.1713  bss_tss=0.7193  k=12
+2026-04-14 11:37:49,160  INFO    cs=51 ms=49  DBCV=0.1761  sil=0.2027  noise=0.022  persist=0.1841  bss_tss=0.7186  k=10
+2026-04-14 11:37:49,160  INFO    Progress: 30 / 231
+2026-04-14 11:38:01,126  INFO    cs=51 ms=51  DBCV=0.0660  sil=0.1462  noise=0.038  persist=0.1724  bss_tss=0.6790  k=14
+2026-04-14 11:38:13,894  INFO    cs=53 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1599  bss_tss=0.6624  k=22
+2026-04-14 11:38:28,110  INFO    cs=53 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.1947  bss_tss=0.7217  k=11
+2026-04-14 11:38:40,114  INFO    cs=53 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1869  bss_tss=0.7194  k=11
+2026-04-14 11:38:52,179  INFO    cs=53 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1853  bss_tss=0.7180  k=11
+2026-04-14 11:39:04,534  INFO    cs=53 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1899  bss_tss=0.7154  k=11
+2026-04-14 11:39:16,542  INFO    cs=53 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1928  bss_tss=0.7133  k=11
+2026-04-14 11:39:28,727  INFO    cs=53 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.1896  bss_tss=0.7105  k=11
+2026-04-14 11:39:41,051  INFO    cs=53 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2073  bss_tss=0.7098  k=9
+2026-04-14 11:39:53,099  INFO    cs=53 ms=51  DBCV=0.0660  sil=0.1462  noise=0.038  persist=0.1716  bss_tss=0.6790  k=14
+2026-04-14 11:39:53,099  INFO    Progress: 40 / 231
+2026-04-14 11:40:05,109  INFO    cs=53 ms=53  DBCV=0.1434  sil=0.1535  noise=0.028  persist=0.1617  bss_tss=0.7041  k=13
+2026-04-14 11:40:16,809  INFO    cs=55 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1615  bss_tss=0.6624  k=22
+2026-04-14 11:40:29,407  INFO    cs=55 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.1953  bss_tss=0.7217  k=11
+2026-04-14 11:40:42,975  INFO    cs=55 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1877  bss_tss=0.7194  k=11
+2026-04-14 11:40:55,692  INFO    cs=55 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1879  bss_tss=0.7180  k=11
+2026-04-14 11:41:09,361  INFO    cs=55 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1906  bss_tss=0.7154  k=11
+2026-04-14 11:41:21,382  INFO    cs=55 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1924  bss_tss=0.7133  k=11
+2026-04-14 11:41:32,442  INFO    cs=55 ms=47  DBCV=0.0806  sil=0.1675  noise=0.053  persist=0.1544  bss_tss=0.6395  k=16
+2026-04-14 11:41:44,492  INFO    cs=55 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2070  bss_tss=0.7098  k=9
+2026-04-14 11:41:56,726  INFO    cs=55 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2071  bss_tss=0.7072  k=9
+2026-04-14 11:41:56,726  INFO    Progress: 50 / 231
+2026-04-14 11:42:08,791  INFO    cs=55 ms=53  DBCV=0.1434  sil=0.1535  noise=0.028  persist=0.1628  bss_tss=0.7041  k=13
+2026-04-14 11:42:21,326  INFO    cs=55 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.1964  bss_tss=0.7308  k=8
+2026-04-14 11:42:32,859  INFO    cs=57 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1629  bss_tss=0.6624  k=22
+2026-04-14 11:42:45,392  INFO    cs=57 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.1924  bss_tss=0.7217  k=11
+2026-04-14 11:42:59,790  INFO    cs=57 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1854  bss_tss=0.7194  k=11
+2026-04-14 11:43:11,939  INFO    cs=57 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1843  bss_tss=0.7180  k=11
+2026-04-14 11:43:24,551  INFO    cs=57 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1886  bss_tss=0.7154  k=11
+2026-04-14 11:43:38,300  INFO    cs=57 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1881  bss_tss=0.7133  k=11
+2026-04-14 11:43:50,417  INFO    cs=57 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.1871  bss_tss=0.7105  k=11
+2026-04-14 11:44:03,126  INFO    cs=57 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2033  bss_tss=0.7098  k=9
+2026-04-14 11:44:03,126  INFO    Progress: 60 / 231
+2026-04-14 11:44:15,864  INFO    cs=57 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2084  bss_tss=0.7072  k=9
+2026-04-14 11:44:29,558  INFO    cs=57 ms=53  DBCV=0.1434  sil=0.1535  noise=0.028  persist=0.1653  bss_tss=0.7041  k=13
+2026-04-14 11:44:42,192  INFO    cs=57 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2052  bss_tss=0.7308  k=8
+2026-04-14 11:44:54,859  INFO    cs=59 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1628  bss_tss=0.6624  k=22
+2026-04-14 11:45:07,909  INFO    cs=59 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2039  bss_tss=0.7217  k=11
+2026-04-14 11:45:20,409  INFO    cs=59 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1943  bss_tss=0.7194  k=11
+2026-04-14 11:45:33,136  INFO    cs=59 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1912  bss_tss=0.7180  k=11
+2026-04-14 11:45:46,782  INFO    cs=59 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1908  bss_tss=0.7154  k=11
+2026-04-14 11:45:58,859  INFO    cs=59 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1894  bss_tss=0.7133  k=11
+2026-04-14 11:46:11,177  INFO    cs=59 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.1902  bss_tss=0.7105  k=11
+2026-04-14 11:46:11,177  INFO    Progress: 70 / 231
+2026-04-14 11:46:23,369  INFO    cs=59 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2068  bss_tss=0.7098  k=9
+2026-04-14 11:46:35,442  INFO    cs=59 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2095  bss_tss=0.7072  k=9
+2026-04-14 11:46:48,006  INFO    cs=59 ms=53  DBCV=0.2523  sil=0.2087  noise=0.015  persist=0.2071  bss_tss=0.7316  k=8
+2026-04-14 11:47:00,815  INFO    cs=59 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2095  bss_tss=0.7308  k=8
+2026-04-14 11:47:12,513  INFO    cs=61 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1711  bss_tss=0.6624  k=22
+2026-04-14 11:47:24,725  INFO    cs=61 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2025  bss_tss=0.7217  k=11
+2026-04-14 11:47:37,404  INFO    cs=61 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1968  bss_tss=0.7194  k=11
+2026-04-14 11:47:49,857  INFO    cs=61 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1928  bss_tss=0.7180  k=11
+2026-04-14 11:48:02,297  INFO    cs=61 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1949  bss_tss=0.7154  k=11
+2026-04-14 11:48:14,600  INFO    cs=61 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1975  bss_tss=0.7133  k=11
+2026-04-14 11:48:14,600  INFO    Progress: 80 / 231
+2026-04-14 11:48:27,069  INFO    cs=61 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.1938  bss_tss=0.7105  k=11
+2026-04-14 11:48:39,470  INFO    cs=61 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2179  bss_tss=0.7098  k=9
+2026-04-14 11:48:51,901  INFO    cs=61 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2215  bss_tss=0.7072  k=9
+2026-04-14 11:49:04,652  INFO    cs=61 ms=53  DBCV=0.2523  sil=0.2087  noise=0.015  persist=0.2108  bss_tss=0.7316  k=8
+2026-04-14 11:49:17,558  INFO    cs=61 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2140  bss_tss=0.7308  k=8
+2026-04-14 11:49:29,770  INFO    cs=63 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1735  bss_tss=0.6624  k=22
+2026-04-14 11:49:42,876  INFO    cs=63 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2048  bss_tss=0.7217  k=11
+2026-04-14 11:49:57,091  INFO    cs=63 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.1979  bss_tss=0.7194  k=11
+2026-04-14 11:50:10,681  INFO    cs=63 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.1898  bss_tss=0.7180  k=11
+2026-04-14 11:50:25,026  INFO    cs=63 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.1900  bss_tss=0.7154  k=11
+2026-04-14 11:50:25,026  INFO    Progress: 90 / 231
+2026-04-14 11:50:38,634  INFO    cs=63 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.1966  bss_tss=0.7133  k=11
+2026-04-14 11:50:52,428  INFO    cs=63 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.1934  bss_tss=0.7105  k=11
+2026-04-14 11:51:05,142  INFO    cs=63 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2164  bss_tss=0.7098  k=9
+2026-04-14 11:51:18,247  INFO    cs=63 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2177  bss_tss=0.7072  k=9
+2026-04-14 11:51:31,401  INFO    cs=63 ms=53  DBCV=0.2523  sil=0.2087  noise=0.015  persist=0.2120  bss_tss=0.7316  k=8
+2026-04-14 11:51:44,398  INFO    cs=63 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2134  bss_tss=0.7308  k=8
+2026-04-14 11:51:56,491  INFO    cs=65 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1908  bss_tss=0.6624  k=22
+2026-04-14 11:52:09,342  INFO    cs=65 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2261  bss_tss=0.7217  k=11
+2026-04-14 11:52:21,977  INFO    cs=65 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.2160  bss_tss=0.7194  k=11
+2026-04-14 11:52:34,379  INFO    cs=65 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.2092  bss_tss=0.7180  k=11
+2026-04-14 11:52:34,379  INFO    Progress: 100 / 231
+2026-04-14 11:52:46,765  INFO    cs=65 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.2132  bss_tss=0.7154  k=11
+2026-04-14 11:52:59,518  INFO    cs=65 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.2128  bss_tss=0.7133  k=11
+2026-04-14 11:53:12,326  INFO    cs=65 ms=47  DBCV=0.0560  sil=0.1613  noise=0.024  persist=0.2177  bss_tss=0.7105  k=11
+2026-04-14 11:53:25,011  INFO    cs=65 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2363  bss_tss=0.7098  k=9
+2026-04-14 11:53:37,252  INFO    cs=65 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2412  bss_tss=0.7072  k=9
+2026-04-14 11:53:51,275  INFO    cs=65 ms=53  DBCV=0.2523  sil=0.2087  noise=0.015  persist=0.2319  bss_tss=0.7316  k=8
+2026-04-14 11:54:03,596  INFO    cs=65 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2300  bss_tss=0.7308  k=8
+2026-04-14 11:54:15,016  INFO    cs=67 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1855  bss_tss=0.6624  k=22
+2026-04-14 11:54:27,109  INFO    cs=67 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2211  bss_tss=0.7217  k=11
+2026-04-14 11:54:39,468  INFO    cs=67 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.2112  bss_tss=0.7194  k=11
+2026-04-14 11:54:39,468  INFO    Progress: 110 / 231
+2026-04-14 11:54:52,575  INFO    cs=67 ms=41  DBCV=0.0230  sil=0.1622  noise=0.021  persist=0.2072  bss_tss=0.7180  k=11
+2026-04-14 11:55:05,090  INFO    cs=67 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.2125  bss_tss=0.7154  k=11
+2026-04-14 11:55:18,484  INFO    cs=67 ms=45  DBCV=0.0512  sil=0.1609  noise=0.023  persist=0.2154  bss_tss=0.7133  k=11
+2026-04-14 11:55:30,975  INFO    cs=67 ms=47  DBCV=0.1738  sil=0.2018  noise=0.023  persist=0.2365  bss_tss=0.7110  k=9
+2026-04-14 11:55:42,742  INFO    cs=67 ms=49  DBCV=0.1815  sil=0.2017  noise=0.023  persist=0.2356  bss_tss=0.7098  k=9
+2026-04-14 11:55:54,640  INFO    cs=67 ms=51  DBCV=0.1696  sil=0.2013  noise=0.025  persist=0.2379  bss_tss=0.7072  k=9
+2026-04-14 11:56:07,193  INFO    cs=67 ms=53  DBCV=0.2523  sil=0.2087  noise=0.015  persist=0.2360  bss_tss=0.7316  k=8
+2026-04-14 11:56:19,508  INFO    cs=67 ms=55  DBCV=0.2511  sil=0.2088  noise=0.015  persist=0.2393  bss_tss=0.7308  k=8
+2026-04-14 11:56:31,158  INFO    cs=69 ms=35  DBCV=0.0659  sil=0.1729  noise=0.051  persist=0.1774  bss_tss=0.6624  k=22
+2026-04-14 11:56:44,008  INFO    cs=69 ms=37  DBCV=0.0531  sil=0.1608  noise=0.019  persist=0.2180  bss_tss=0.7217  k=11
+2026-04-14 11:56:44,008  INFO    Progress: 120 / 231
+2026-04-14 11:56:55,441  INFO    cs=69 ms=39  DBCV=0.0208  sil=0.1617  noise=0.020  persist=0.2099  bss_tss=0.7194  k=11
+2026-04-14 11:57:06,699  INFO    cs=69 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2171  bss_tss=0.7169  k=10
+2026-04-14 11:57:17,905  INFO    cs=69 ms=43  DBCV=0.0517  sil=0.1607  noise=0.022  persist=0.2030  bss_tss=0.7154  k=11
+2026-04-14 11:57:29,152  INFO    cs=69 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2333  bss_tss=0.7112  k=10
+2026-04-14 11:57:41,128  INFO    cs=69 ms=47  DBCV=0.1386  sil=0.3052  noise=0.022  persist=0.2667  bss_tss=0.7091  k=8
+2026-04-14 11:57:52,542  INFO    cs=69 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2575  bss_tss=0.7082  k=8
+2026-04-14 11:58:03,786  INFO    cs=69 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2650  bss_tss=0.7056  k=8
+2026-04-14 11:58:14,555  INFO    cs=69 ms=53  DBCV=0.1992  sil=0.3181  noise=0.048  persist=0.2306  bss_tss=0.6454  k=11
+2026-04-14 11:58:25,990  INFO    cs=69 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2702  bss_tss=0.7291  k=7
+2026-04-14 11:58:36,678  INFO    cs=71 ms=35  DBCV=0.3196  sil=0.2790  noise=0.050  persist=0.1835  bss_tss=0.6602  k=21
+2026-04-14 11:58:36,678  INFO    Progress: 130 / 231
+2026-04-14 11:58:48,016  INFO    cs=71 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2390  bss_tss=0.7194  k=10
+2026-04-14 11:58:59,417  INFO    cs=71 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2271  bss_tss=0.7183  k=10
+2026-04-14 11:59:10,620  INFO    cs=71 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2221  bss_tss=0.7169  k=10
+2026-04-14 11:59:21,874  INFO    cs=71 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2237  bss_tss=0.7132  k=10
+2026-04-14 11:59:33,099  INFO    cs=71 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2313  bss_tss=0.7112  k=10
+2026-04-14 11:59:44,456  INFO    cs=71 ms=47  DBCV=0.1386  sil=0.3052  noise=0.022  persist=0.2642  bss_tss=0.7091  k=8
+2026-04-14 11:59:56,042  INFO    cs=71 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2549  bss_tss=0.7082  k=8
+2026-04-14 12:00:07,549  INFO    cs=71 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2593  bss_tss=0.7056  k=8
+2026-04-14 12:00:18,293  INFO    cs=71 ms=53  DBCV=0.1992  sil=0.3181  noise=0.048  persist=0.2257  bss_tss=0.6454  k=11
+2026-04-14 12:00:29,768  INFO    cs=71 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2757  bss_tss=0.7291  k=7
+2026-04-14 12:00:29,768  INFO    Progress: 140 / 231
+2026-04-14 12:00:40,432  INFO    cs=73 ms=35  DBCV=0.3196  sil=0.2790  noise=0.050  persist=0.1823  bss_tss=0.6602  k=21
+2026-04-14 12:00:51,725  INFO    cs=73 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2367  bss_tss=0.7194  k=10
+2026-04-14 12:01:03,310  INFO    cs=73 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2252  bss_tss=0.7183  k=10
+2026-04-14 12:01:14,532  INFO    cs=73 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2202  bss_tss=0.7169  k=10
+2026-04-14 12:01:25,735  INFO    cs=73 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2275  bss_tss=0.7132  k=10
+2026-04-14 12:01:36,970  INFO    cs=73 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2338  bss_tss=0.7112  k=10
+2026-04-14 12:01:48,640  INFO    cs=73 ms=47  DBCV=0.1386  sil=0.3052  noise=0.022  persist=0.2613  bss_tss=0.7091  k=8
+2026-04-14 12:02:00,266  INFO    cs=73 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2641  bss_tss=0.7082  k=8
+2026-04-14 12:02:11,867  INFO    cs=73 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2564  bss_tss=0.7056  k=8
+2026-04-14 12:02:23,311  INFO    cs=73 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2709  bss_tss=0.7300  k=7
+2026-04-14 12:02:23,311  INFO    Progress: 150 / 231
+2026-04-14 12:02:34,712  INFO    cs=73 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2733  bss_tss=0.7291  k=7
+2026-04-14 12:02:46,047  INFO    cs=75 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2357  bss_tss=0.7207  k=10
+2026-04-14 12:02:57,467  INFO    cs=75 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2339  bss_tss=0.7194  k=10
+2026-04-14 12:03:08,769  INFO    cs=75 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2215  bss_tss=0.7183  k=10
+2026-04-14 12:03:19,949  INFO    cs=75 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2176  bss_tss=0.7169  k=10
+2026-04-14 12:03:31,240  INFO    cs=75 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2260  bss_tss=0.7132  k=10
+2026-04-14 12:03:42,499  INFO    cs=75 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2307  bss_tss=0.7112  k=10
+2026-04-14 12:03:54,115  INFO    cs=75 ms=47  DBCV=0.1386  sil=0.3052  noise=0.022  persist=0.2599  bss_tss=0.7091  k=8
+2026-04-14 12:04:05,220  INFO    cs=75 ms=49  DBCV=0.2212  sil=0.3142  noise=0.044  persist=0.2218  bss_tss=0.6545  k=11
+2026-04-14 12:04:16,359  INFO    cs=75 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2238  bss_tss=0.6487  k=11
+2026-04-14 12:04:16,359  INFO    Progress: 160 / 231
+2026-04-14 12:04:28,120  INFO    cs=75 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2709  bss_tss=0.7300  k=7
+2026-04-14 12:04:39,681  INFO    cs=75 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2723  bss_tss=0.7291  k=7
+2026-04-14 12:04:51,323  INFO    cs=77 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2303  bss_tss=0.7207  k=10
+2026-04-14 12:05:02,952  INFO    cs=77 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2279  bss_tss=0.7194  k=10
+2026-04-14 12:05:14,538  INFO    cs=77 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2156  bss_tss=0.7183  k=10
+2026-04-14 12:05:26,042  INFO    cs=77 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2117  bss_tss=0.7169  k=10
+2026-04-14 12:05:37,737  INFO    cs=77 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2190  bss_tss=0.7132  k=10
+2026-04-14 12:05:49,115  INFO    cs=77 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2233  bss_tss=0.7112  k=10
+2026-04-14 12:06:00,741  INFO    cs=77 ms=47  DBCV=0.1386  sil=0.3052  noise=0.022  persist=0.2505  bss_tss=0.7091  k=8
+2026-04-14 12:06:12,249  INFO    cs=77 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2550  bss_tss=0.7082  k=8
+2026-04-14 12:06:12,249  INFO    Progress: 170 / 231
+2026-04-14 12:06:23,192  INFO    cs=77 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2191  bss_tss=0.6487  k=11
+2026-04-14 12:06:34,726  INFO    cs=77 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2659  bss_tss=0.7300  k=7
+2026-04-14 12:06:46,468  INFO    cs=77 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2662  bss_tss=0.7291  k=7
+2026-04-14 12:06:58,162  INFO    cs=79 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2280  bss_tss=0.7207  k=10
+2026-04-14 12:07:09,922  INFO    cs=79 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2218  bss_tss=0.7194  k=10
+2026-04-14 12:07:21,282  INFO    cs=79 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2115  bss_tss=0.7183  k=10
+2026-04-14 12:07:33,183  INFO    cs=79 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2074  bss_tss=0.7169  k=10
+2026-04-14 12:07:44,536  INFO    cs=79 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2136  bss_tss=0.7132  k=10
+2026-04-14 12:07:55,873  INFO    cs=79 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2186  bss_tss=0.7112  k=10
+2026-04-14 12:08:06,814  INFO    cs=79 ms=47  DBCV=0.1592  sil=0.3142  noise=0.042  persist=0.2099  bss_tss=0.6582  k=11
+2026-04-14 12:08:06,814  INFO    Progress: 180 / 231
+2026-04-14 12:08:18,284  INFO    cs=79 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2485  bss_tss=0.7082  k=8
+2026-04-14 12:08:29,093  INFO    cs=79 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2102  bss_tss=0.6487  k=11
+2026-04-14 12:08:40,589  INFO    cs=79 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2625  bss_tss=0.7300  k=7
+2026-04-14 12:08:52,112  INFO    cs=79 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2632  bss_tss=0.7291  k=7
+2026-04-14 12:09:03,534  INFO    cs=81 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2259  bss_tss=0.7207  k=10
+2026-04-14 12:09:14,928  INFO    cs=81 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2204  bss_tss=0.7194  k=10
+2026-04-14 12:09:26,260  INFO    cs=81 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2127  bss_tss=0.7183  k=10
+2026-04-14 12:09:37,515  INFO    cs=81 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2059  bss_tss=0.7169  k=10
+2026-04-14 12:09:48,849  INFO    cs=81 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2127  bss_tss=0.7132  k=10
+2026-04-14 12:10:00,212  INFO    cs=81 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2173  bss_tss=0.7112  k=10
+2026-04-14 12:10:00,212  INFO    Progress: 190 / 231
+2026-04-14 12:10:11,148  INFO    cs=81 ms=47  DBCV=0.1592  sil=0.3142  noise=0.042  persist=0.2090  bss_tss=0.6582  k=11
+2026-04-14 12:10:22,474  INFO    cs=81 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2478  bss_tss=0.7082  k=8
+2026-04-14 12:10:33,385  INFO    cs=81 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2083  bss_tss=0.6487  k=11
+2026-04-14 12:10:44,893  INFO    cs=81 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2629  bss_tss=0.7300  k=7
+2026-04-14 12:10:56,415  INFO    cs=81 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2635  bss_tss=0.7291  k=7
+2026-04-14 12:11:07,818  INFO    cs=83 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2255  bss_tss=0.7207  k=10
+2026-04-14 12:11:19,201  INFO    cs=83 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2206  bss_tss=0.7194  k=10
+2026-04-14 12:11:31,007  INFO    cs=83 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2107  bss_tss=0.7183  k=10
+2026-04-14 12:11:42,548  INFO    cs=83 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2065  bss_tss=0.7169  k=10
+2026-04-14 12:11:53,871  INFO    cs=83 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2118  bss_tss=0.7132  k=10
+2026-04-14 12:11:53,871  INFO    Progress: 200 / 231
+2026-04-14 12:12:05,241  INFO    cs=83 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2156  bss_tss=0.7112  k=10
+2026-04-14 12:12:16,250  INFO    cs=83 ms=47  DBCV=0.1592  sil=0.3142  noise=0.042  persist=0.2078  bss_tss=0.6582  k=11
+2026-04-14 12:12:27,692  INFO    cs=83 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2479  bss_tss=0.7082  k=8
+2026-04-14 12:12:38,605  INFO    cs=83 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2087  bss_tss=0.6487  k=11
+2026-04-14 12:12:50,143  INFO    cs=83 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2635  bss_tss=0.7300  k=7
+2026-04-14 12:13:01,705  INFO    cs=83 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2647  bss_tss=0.7291  k=7
+2026-04-14 12:13:13,133  INFO    cs=85 ms=35  DBCV=0.2939  sil=0.2637  noise=0.017  persist=0.2216  bss_tss=0.7207  k=10
+2026-04-14 12:13:24,539  INFO    cs=85 ms=37  DBCV=0.0833  sil=0.2641  noise=0.018  persist=0.2208  bss_tss=0.7194  k=10
+2026-04-14 12:13:35,917  INFO    cs=85 ms=39  DBCV=0.0208  sil=0.2679  noise=0.023  persist=0.2106  bss_tss=0.7183  k=10
+2026-04-14 12:13:47,166  INFO    cs=85 ms=41  DBCV=0.0209  sil=0.2681  noise=0.023  persist=0.2064  bss_tss=0.7169  k=10
+2026-04-14 12:13:47,166  INFO    Progress: 210 / 231
+2026-04-14 12:13:58,590  INFO    cs=85 ms=43  DBCV=0.0404  sil=0.2644  noise=0.021  persist=0.2127  bss_tss=0.7132  k=10
+2026-04-14 12:14:09,945  INFO    cs=85 ms=45  DBCV=0.0232  sil=0.2641  noise=0.021  persist=0.2145  bss_tss=0.7112  k=10
+2026-04-14 12:14:20,887  INFO    cs=85 ms=47  DBCV=0.1592  sil=0.3142  noise=0.042  persist=0.2062  bss_tss=0.6582  k=11
+2026-04-14 12:14:32,209  INFO    cs=85 ms=49  DBCV=0.2016  sil=0.3053  noise=0.022  persist=0.2500  bss_tss=0.7082  k=8
+2026-04-14 12:14:43,500  INFO    cs=85 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2444  bss_tss=0.7056  k=8
+2026-04-14 12:14:55,075  INFO    cs=85 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2640  bss_tss=0.7300  k=7
+2026-04-14 12:15:06,288  INFO    cs=85 ms=55  DBCV=0.1488  sil=0.2657  noise=0.031  persist=0.2101  bss_tss=0.6909  k=11
+2026-04-14 12:15:07,431  INFO  Grid report saved to C:\Jack\FragTree\databases\reports\fine_grid_report.pdf
+2026-04-14 13:17:54,627  INFO  === Grid search: Fine Grid Search Report ===
+2026-04-14 13:17:54,627  INFO  Loading mol objects and computing fingerprints...
+2026-04-14 13:18:00,677  INFO    Loaded 30,494 molecules  (0 skipped)
+2026-04-14 13:18:00,708  INFO  Running UMAP  (n_neighbors=15, min_dist=0.1, metric=cosine)...
+2026-04-14 13:18:30,384  INFO    UMAP complete
+2026-04-14 13:18:43,822  INFO    cs=71 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2593  bss_tss=0.7056  k=8
+2026-04-14 13:18:54,922  INFO    cs=71 ms=53  DBCV=0.1992  sil=0.3181  noise=0.048  persist=0.2257  bss_tss=0.6454  k=11
+2026-04-14 13:19:06,509  INFO    cs=71 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2757  bss_tss=0.7291  k=7
+2026-04-14 13:19:18,013  INFO    cs=71 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2734  bss_tss=0.7289  k=7
+2026-04-14 13:19:29,629  INFO    cs=71 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2630  bss_tss=0.7283  k=7
+2026-04-14 13:19:41,604  INFO    cs=71 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2777  bss_tss=0.7284  k=7
+2026-04-14 13:19:53,075  INFO    cs=71 ms=63  DBCV=0.1793  sil=0.3191  noise=0.052  persist=0.2355  bss_tss=0.6356  k=11
+2026-04-14 13:20:04,223  INFO    cs=71 ms=65  DBCV=0.1814  sil=0.3205  noise=0.055  persist=0.2254  bss_tss=0.6313  k=11
+2026-04-14 13:20:15,989  INFO    cs=73 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2564  bss_tss=0.7056  k=8
+2026-04-14 13:20:15,990  INFO    Progress: 10 / 104
+2026-04-14 13:20:28,365  INFO    cs=73 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2709  bss_tss=0.7300  k=7
+2026-04-14 13:20:40,251  INFO    cs=73 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2733  bss_tss=0.7291  k=7
+2026-04-14 13:20:51,847  INFO    cs=73 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2715  bss_tss=0.7289  k=7
+2026-04-14 13:21:03,257  INFO    cs=73 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2634  bss_tss=0.7283  k=7
+2026-04-14 13:21:14,670  INFO    cs=73 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2749  bss_tss=0.7284  k=7
+2026-04-14 13:21:25,335  INFO    cs=73 ms=63  DBCV=0.1793  sil=0.3191  noise=0.052  persist=0.2324  bss_tss=0.6356  k=11
+2026-04-14 13:21:36,671  INFO    cs=73 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2625  bss_tss=0.7225  k=7
+2026-04-14 13:21:47,425  INFO    cs=75 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2238  bss_tss=0.6487  k=11
+2026-04-14 13:21:58,898  INFO    cs=75 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2709  bss_tss=0.7300  k=7
+2026-04-14 13:22:10,351  INFO    cs=75 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2723  bss_tss=0.7291  k=7
+2026-04-14 13:22:10,351  INFO    Progress: 20 / 104
+2026-04-14 13:22:21,804  INFO    cs=75 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2686  bss_tss=0.7289  k=7
+2026-04-14 13:22:33,231  INFO    cs=75 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2605  bss_tss=0.7283  k=7
+2026-04-14 13:22:44,675  INFO    cs=75 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2721  bss_tss=0.7284  k=7
+2026-04-14 13:22:55,402  INFO    cs=75 ms=63  DBCV=0.1793  sil=0.3191  noise=0.052  persist=0.2293  bss_tss=0.6356  k=11
+2026-04-14 13:23:06,769  INFO    cs=75 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2606  bss_tss=0.7225  k=7
+2026-04-14 13:23:17,581  INFO    cs=77 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2191  bss_tss=0.6487  k=11
+2026-04-14 13:23:28,992  INFO    cs=77 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2659  bss_tss=0.7300  k=7
+2026-04-14 13:23:40,426  INFO    cs=77 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2662  bss_tss=0.7291  k=7
+2026-04-14 13:23:51,853  INFO    cs=77 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2658  bss_tss=0.7289  k=7
+2026-04-14 13:24:03,282  INFO    cs=77 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2594  bss_tss=0.7283  k=7
+2026-04-14 13:24:03,282  INFO    Progress: 30 / 104
+2026-04-14 13:24:14,743  INFO    cs=77 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2722  bss_tss=0.7284  k=7
+2026-04-14 13:24:26,132  INFO    cs=77 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2722  bss_tss=0.7233  k=7
+2026-04-14 13:24:37,540  INFO    cs=77 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2605  bss_tss=0.7225  k=7
+2026-04-14 13:24:48,537  INFO    cs=79 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2102  bss_tss=0.6487  k=11
+2026-04-14 13:25:00,739  INFO    cs=79 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2625  bss_tss=0.7300  k=7
+2026-04-14 13:25:13,263  INFO    cs=79 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2632  bss_tss=0.7291  k=7
+2026-04-14 13:25:27,438  INFO    cs=79 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2642  bss_tss=0.7289  k=7
+2026-04-14 13:25:40,077  INFO    cs=79 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2552  bss_tss=0.7283  k=7
+2026-04-14 13:25:52,903  INFO    cs=79 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2675  bss_tss=0.7284  k=7
+2026-04-14 13:26:05,576  INFO    cs=79 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2684  bss_tss=0.7233  k=7
+2026-04-14 13:26:05,576  INFO    Progress: 40 / 104
+2026-04-14 13:26:17,725  INFO    cs=79 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2554  bss_tss=0.7225  k=7
+2026-04-14 13:26:28,780  INFO    cs=81 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2083  bss_tss=0.6487  k=11
+2026-04-14 13:26:40,996  INFO    cs=81 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2629  bss_tss=0.7300  k=7
+2026-04-14 13:26:53,462  INFO    cs=81 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2635  bss_tss=0.7291  k=7
+2026-04-14 13:27:05,866  INFO    cs=81 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2639  bss_tss=0.7289  k=7
+2026-04-14 13:27:17,799  INFO    cs=81 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2548  bss_tss=0.7283  k=7
+2026-04-14 13:27:30,608  INFO    cs=81 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2680  bss_tss=0.7284  k=7
+2026-04-14 13:27:42,071  INFO    cs=81 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2709  bss_tss=0.7233  k=7
+2026-04-14 13:27:53,460  INFO    cs=81 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2574  bss_tss=0.7225  k=7
+2026-04-14 13:28:04,324  INFO    cs=83 ms=51  DBCV=0.2027  sil=0.3171  noise=0.046  persist=0.2087  bss_tss=0.6487  k=11
+2026-04-14 13:28:04,324  INFO    Progress: 50 / 104
+2026-04-14 13:28:15,739  INFO    cs=83 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2635  bss_tss=0.7300  k=7
+2026-04-14 13:28:27,169  INFO    cs=83 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2647  bss_tss=0.7291  k=7
+2026-04-14 13:28:38,637  INFO    cs=83 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2643  bss_tss=0.7289  k=7
+2026-04-14 13:28:50,047  INFO    cs=83 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2559  bss_tss=0.7283  k=7
+2026-04-14 13:29:01,556  INFO    cs=83 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2738  bss_tss=0.7284  k=7
+2026-04-14 13:29:12,989  INFO    cs=83 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2728  bss_tss=0.7233  k=7
+2026-04-14 13:29:24,388  INFO    cs=83 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2586  bss_tss=0.7225  k=7
+2026-04-14 13:29:35,599  INFO    cs=85 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2444  bss_tss=0.7056  k=8
+2026-04-14 13:29:47,043  INFO    cs=85 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2640  bss_tss=0.7300  k=7
+2026-04-14 13:29:58,626  INFO    cs=85 ms=55  DBCV=0.1488  sil=0.2657  noise=0.031  persist=0.2101  bss_tss=0.6909  k=11
+2026-04-14 13:29:58,626  INFO    Progress: 60 / 104
+2026-04-14 13:30:11,484  INFO    cs=85 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2647  bss_tss=0.7289  k=7
+2026-04-14 13:30:24,316  INFO    cs=85 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2571  bss_tss=0.7283  k=7
+2026-04-14 13:30:36,562  INFO    cs=85 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2747  bss_tss=0.7284  k=7
+2026-04-14 13:30:48,684  INFO    cs=85 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2722  bss_tss=0.7233  k=7
+2026-04-14 13:31:00,542  INFO    cs=85 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2589  bss_tss=0.7225  k=7
+2026-04-14 13:31:12,191  INFO    cs=87 ms=51  DBCV=0.0800  sil=0.2589  noise=0.040  persist=0.2014  bss_tss=0.6692  k=12
+2026-04-14 13:31:23,383  INFO    cs=87 ms=53  DBCV=0.1528  sil=0.2651  noise=0.029  persist=0.2097  bss_tss=0.6944  k=11
+2026-04-14 13:31:34,506  INFO    cs=87 ms=55  DBCV=0.1488  sil=0.2657  noise=0.031  persist=0.2075  bss_tss=0.6909  k=11
+2026-04-14 13:31:45,971  INFO    cs=87 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2656  bss_tss=0.7289  k=7
+2026-04-14 13:31:57,505  INFO    cs=87 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2608  bss_tss=0.7283  k=7
+2026-04-14 13:31:57,505  INFO    Progress: 70 / 104
+2026-04-14 13:32:08,989  INFO    cs=87 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2757  bss_tss=0.7284  k=7
+2026-04-14 13:32:20,399  INFO    cs=87 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2716  bss_tss=0.7233  k=7
+2026-04-14 13:32:31,788  INFO    cs=87 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2599  bss_tss=0.7225  k=7
+2026-04-14 13:32:43,105  INFO    cs=89 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2462  bss_tss=0.7056  k=8
+2026-04-14 13:32:54,285  INFO    cs=89 ms=53  DBCV=0.1528  sil=0.2651  noise=0.029  persist=0.2085  bss_tss=0.6944  k=11
+2026-04-14 13:33:05,898  INFO    cs=89 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2726  bss_tss=0.7291  k=7
+2026-04-14 13:33:17,357  INFO    cs=89 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2748  bss_tss=0.7289  k=7
+2026-04-14 13:33:28,828  INFO    cs=89 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2628  bss_tss=0.7283  k=7
+2026-04-14 13:33:40,267  INFO    cs=89 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2765  bss_tss=0.7284  k=7
+2026-04-14 13:33:51,707  INFO    cs=89 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2721  bss_tss=0.7233  k=7
+2026-04-14 13:33:51,707  INFO    Progress: 80 / 104
+2026-04-14 13:34:03,138  INFO    cs=89 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2604  bss_tss=0.7225  k=7
+2026-04-14 13:34:14,467  INFO    cs=91 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2465  bss_tss=0.7056  k=8
+2026-04-14 13:34:25,953  INFO    cs=91 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2689  bss_tss=0.7300  k=7
+2026-04-14 13:34:37,417  INFO    cs=91 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2749  bss_tss=0.7291  k=7
+2026-04-14 13:34:48,878  INFO    cs=91 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2757  bss_tss=0.7289  k=7
+2026-04-14 13:35:00,450  INFO    cs=91 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2660  bss_tss=0.7283  k=7
+2026-04-14 13:35:11,897  INFO    cs=91 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2780  bss_tss=0.7284  k=7
+2026-04-14 13:35:23,315  INFO    cs=91 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2753  bss_tss=0.7233  k=7
+2026-04-14 13:35:34,734  INFO    cs=91 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2643  bss_tss=0.7225  k=7
+2026-04-14 13:35:46,007  INFO    cs=93 ms=51  DBCV=0.1836  sil=0.3052  noise=0.023  persist=0.2463  bss_tss=0.7056  k=8
+2026-04-14 13:35:46,007  INFO    Progress: 90 / 104
+2026-04-14 13:35:57,415  INFO    cs=93 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2705  bss_tss=0.7300  k=7
+2026-04-14 13:36:08,805  INFO    cs=93 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2745  bss_tss=0.7291  k=7
+2026-04-14 13:36:20,195  INFO    cs=93 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2773  bss_tss=0.7289  k=7
+2026-04-14 13:36:31,535  INFO    cs=93 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2656  bss_tss=0.7283  k=7
+2026-04-14 13:36:42,892  INFO    cs=93 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2785  bss_tss=0.7284  k=7
+2026-04-14 13:36:54,222  INFO    cs=93 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2777  bss_tss=0.7233  k=7
+2026-04-14 13:37:05,550  INFO    cs=93 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2629  bss_tss=0.7225  k=7
+2026-04-14 13:37:16,899  INFO    cs=95 ms=51  DBCV=0.2639  sil=0.3120  noise=0.014  persist=0.2697  bss_tss=0.7279  k=7
+2026-04-14 13:37:28,259  INFO    cs=95 ms=53  DBCV=0.2618  sil=0.3115  noise=0.013  persist=0.2704  bss_tss=0.7300  k=7
+2026-04-14 13:37:39,571  INFO    cs=95 ms=55  DBCV=0.2614  sil=0.3117  noise=0.014  persist=0.2748  bss_tss=0.7291  k=7
+2026-04-14 13:37:39,571  INFO    Progress: 100 / 104
+2026-04-14 13:37:50,923  INFO    cs=95 ms=57  DBCV=0.1414  sil=0.3119  noise=0.014  persist=0.2797  bss_tss=0.7289  k=7
+2026-04-14 13:38:02,266  INFO    cs=95 ms=59  DBCV=0.1159  sil=0.3128  noise=0.015  persist=0.2673  bss_tss=0.7283  k=7
+2026-04-14 13:38:13,618  INFO    cs=95 ms=61  DBCV=0.1917  sil=0.3121  noise=0.015  persist=0.2822  bss_tss=0.7284  k=7
+2026-04-14 13:38:24,949  INFO    cs=95 ms=63  DBCV=0.2415  sil=0.3130  noise=0.017  persist=0.2795  bss_tss=0.7233  k=7
+2026-04-14 13:38:36,199  INFO    cs=95 ms=65  DBCV=0.2437  sil=0.3143  noise=0.018  persist=0.2644  bss_tss=0.7225  k=7
+2026-04-14 13:38:37,045  INFO  Grid report saved to C:\Jack\FragTree\databases\reports\fine_grid_report.pdf
+2026-04-14 14:39:25,537  INFO  === Final clustering: min_cluster_size=75, min_samples=53 ===
+2026-04-14 14:39:25,537  INFO  Loading mol objects and computing fingerprints...
+2026-04-14 14:39:31,278  INFO    Loaded 30,494 molecules  (0 skipped)
+2026-04-14 14:39:31,307  INFO  Running UMAP  (n_neighbors=15, min_dist=0.1, metric=cosine)...
+2026-04-14 14:40:00,347  INFO    UMAP complete
+2026-04-14 14:40:24,586  INFO    DBCV=0.2618  sil=0.3115  noise=0.013  n_clusters=7  ARI=0.0000  AMI=0.0000
+2026-04-14 14:40:25,447  INFO  Final report saved to C:\Jack\FragTree\databases\reports\final_cluster_report.pdf
+2026-04-14 14:40:25,447  INFO  Cluster assignments saved to C:\Jack\FragTree\databases\reports\cluster_assignments.json

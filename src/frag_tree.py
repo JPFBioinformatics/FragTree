@@ -9,18 +9,21 @@ The tree is a directed acyclic bipartite graph alternating between two node
 types:
 
     FragmentNode    represents a specific ion structure (molecular ion or
-                    any charged fragment produced by bond cleavage).  Stores
-                    the RDKit Mol object, mass, charge state, and radical atom
-                    index.
+                    any fragment produced by bond cleavage).  Every fragment
+                    is treated as potentially charged — either product of a
+                    bond break can carry the charge in 70 eV EI.  Stores the
+                    RDKit Mol object, mass, and radical atom index.
 
     BondBreakNode   represents a single bond cleavage event connecting a
-                    parent FragmentNode to two child FragmentNodes (one
-                    charged, one neutral).  Stores the bond index, basic bond
-                    descriptors, and a 50/50 radical position flag.
+                    parent FragmentNode to two child FragmentNodes (child_a
+                    and child_b, both potentially charged).  Stores the bond
+                    index, basic bond descriptors, and a charge_split_prior
+                    (initialised to 0.5) that the GNN learns — it is the
+                    probability that child_a carries the charge.
 
 Edges run:
     FragmentNode  ->  BondBreakNode   (one edge per cleavable bond)
-    BondBreakNode ->  FragmentNode    (two edges: charged child, neutral child)
+    BondBreakNode ->  FragmentNode    (two edges: child_a, child_b)
 
 Fragment generation
 -------------------
@@ -99,7 +102,6 @@ class FragmentNode:
     mol             RDKit Mol object for this fragment
     mass            exact monoisotopic mass of the fragment (Da)
     mass_minus_h    mass - 1.00794, the M-H loss variant (radical -> closed shell)
-    is_charged      True if this fragment carries the charge (will be detected)
     is_root         True if this is the intact molecular ion
     radical_atom    index of the atom bearing the free radical (-1 if none)
     depth           depth in the tree (root = 0)
@@ -111,7 +113,7 @@ class FragmentNode:
     def __init__(
         self,
         mol:                  Chem.Mol,
-        is_charged:           bool = True,
+        atom_map_to_root:     list[int],
         is_root:              bool = False,
         radical_atom:         int  = -1,
         depth:                int  = 0,
@@ -119,7 +121,7 @@ class FragmentNode:
     ):
         self.node_id              = str(uuid.uuid4())
         self.mol                  = mol
-        self.is_charged           = is_charged
+        self.atom_map_to_root     = atom_map_to_root
         self.is_root              = is_root
         self.radical_atom         = radical_atom
         self.depth                = depth
@@ -135,7 +137,6 @@ class FragmentNode:
         return (
             f"FragmentNode(id={self.node_id[:8]}, "
             f"mass={self.mass:.2f}, "
-            f"charged={self.is_charged}, "
             f"smiles={smiles[:30]})"
         )
 
@@ -143,14 +144,17 @@ class BondBreakNode:
     """
     Represents a single bond cleavage event in the fragmentation tree.
 
-    Sits between a parent FragmentNode and two child FragmentNodes (one
-    charged, one neutral).  Stores all bond-level descriptors needed by the
-    GNN to construct the bond embedding, but does NOT construct the embedding
-    itself — that is the GNN's responsibility.
+    Sits between a parent FragmentNode and one or two child FragmentNodes.
+    For acyclic bonds, two children are produced (child_a and child_b).  For
+    ring bonds, a single child is produced (child_a only, child_b_id = None)
+    representing the ring-opened species.  Stores all bond-level descriptors
+    needed by the GNN to construct the bond embedding, but does NOT construct
+    the embedding itself — that is the GNN's responsibility.
 
-    The radical_flag encodes which atom at the cleavage site bears the free
-    radical after bond homolysis.  Since there is no strong a priori reason to
-    prefer one end, both atoms are given equal prior probability (0.5 each).
+    For two-child nodes, charge_split_prior is the prior probability that
+    child_a carries the charge; the GNN learns this from training data.
+    For single-child (ring-open) nodes, charge_split_prior is fixed at 1.0
+    since the single fragment trivially carries the charge.
 
     Attributes
     ----------
@@ -183,13 +187,17 @@ class BondBreakNode:
     -- atom descriptors for atom_j (same set as atom_i) --
     j_atomic_num ... j_num_hs
 
-    -- radical position --
-    radical_flag        0.5 / 0.5 indicating equal prior probability for
-                        radical on atom_i vs atom_j
+    -- charge split prior --
+    charge_split_prior  prior probability that child_a carries the charge
+                        (initialised to 0.5).  The GNN learns this value
+                        during training; 1 - charge_split_prior is the
+                        probability that child_b carries the charge.
 
     -- children --
-    charged_child_id    node_id of the charged child FragmentNode
-    neutral_child_id    node_id of the neutral child FragmentNode
+    child_a_id          node_id of the heavier child FragmentNode
+    child_b_id          node_id of the lighter child FragmentNode, or None
+                        for ring-opening events where only one fragment is
+                        produced
     """
 
     # approximate covalent radii in angstroms
@@ -265,12 +273,13 @@ class BondBreakNode:
         self.j_in_ring           = atom_j.IsInRing()
         self.j_num_hs            = atom_j.GetTotalNumHs()
 
-        # radical position — equal prior for atom_i vs atom_j
-        self.radical_flag = 0.5
+        # charge split prior — GNN learns this; 0.5 means equal prior
+        # for child_a vs child_b carrying the charge
+        self.charge_split_prior: float = 0.5
 
         # child node IDs populated by FragTree after child nodes are created
-        self.charged_child_id: Optional[str] = None
-        self.neutral_child_id: Optional[str] = None
+        self.child_a_id: Optional[str] = None   # heavier fragment
+        self.child_b_id: Optional[str] = None   # lighter fragment
 
     def __repr__(self) -> str:
         return (
@@ -383,14 +392,20 @@ class FragmentationTree:
     n_bond_breaks   total number of BondBreakNode instances in the tree
     """
 
-    def __init__(self, mol: Chem.Mol, min_mass_da: float = 100.0):
+    def __init__(self, mol: Chem.Mol, min_mass_da: float = 100.0, max_depth: int = 3):
         self.min_mass_da = min_mass_da
+        self.max_depth   = max_depth
 
         self.fragment_nodes:   dict[str, FragmentNode]   = {}
         self.bond_break_nodes: dict[str, BondBreakNode]  = {}
 
         # build root node from the intact molecular ion
-        self.root = FragmentNode(mol, is_charged=True, is_root=True, depth=0)
+        self.root = FragmentNode(
+            mol,
+            atom_map_to_root=list(range(mol.GetNumAtoms())),
+            is_root=True,
+            depth=0,
+        )
         self._register_fragment(self.root)
 
         # eagerly build the full tree
@@ -414,14 +429,15 @@ class FragmentationTree:
         """Returns the BondBreakNode with the given node_id, or None."""
         return self.bond_break_nodes.get(node_id)
 
-    def get_charged_fragments(self) -> list[FragmentNode]:
+    def get_all_fragments(self) -> list[FragmentNode]:
         """
-        Returns all charged (measurable) fragment nodes sorted by mass
-        descending.  These are the nodes whose probabilities map directly
-        to predicted spectrum intensities.
+        Returns all fragment nodes sorted by mass descending.  Every fragment
+        is a potentially observable ion — the GNN's charge_split_prior on each
+        BondBreakNode determines the probability that a given fragment carries
+        the charge and appears in the spectrum.
         """
         return sorted(
-            [n for n in self.fragment_nodes.values() if n.is_charged],
+            self.fragment_nodes.values(),
             key=lambda n: n.mass,
             reverse=True,
         )
@@ -441,14 +457,11 @@ class FragmentationTree:
 
     def summary(self) -> str:
         """Returns a short human-readable summary of the tree."""
-        charged = sum(1 for n in self.fragment_nodes.values() if n.is_charged)
-        neutral = self.n_fragments - charged
         return (
             f"FragmentationTree\n"
             f"  root mass:       {self.root.mass:.2f} Da\n"
             f"  min mass cutoff: {self.min_mass_da:.1f} Da\n"
-            f"  fragment nodes:  {self.n_fragments} "
-            f"({charged} charged, {neutral} neutral)\n"
+            f"  fragment nodes:  {self.n_fragments}\n"
             f"  bond break nodes:{self.n_bond_breaks}\n"
         )
 
@@ -472,9 +485,18 @@ class FragmentationTree:
 
         Hydrogen bonds are skipped — H atoms contribute to mass but are not
         fragmentation sites.
+
+        Expansion stops when:
+          - parent.depth >= max_depth  (prevents runaway recursion)
+          - the fragment's canonical SMILES has already been expanded from
+            another path (prevents combinatorial re-expansion of shared
+            substructures)
         """
         mol = parent.mol
         if mol is None:
+            return
+
+        if parent.depth >= self.max_depth:
             return
 
         for bond in mol.GetBonds():
@@ -491,96 +513,122 @@ class FragmentationTree:
             parent.children.append(bb_node)
 
             # generate child fragments by cleaving this bond
-            charged_child, neutral_child = self._cleave_bond(
+            child_a, child_b = self._cleave_bond(
                 mol,
                 bond.GetIdx(),
-                bond.GetBeginAtomIdx(),
-                bond.GetEndAtomIdx(),
+                parent.atom_map_to_root,
                 parent.depth + 1,
                 bb_node.node_id,
             )
 
-            if charged_child is None or neutral_child is None:
-                # cleavage failed (e.g. ring bond that does not disconnect)
+            if child_a is None:
+                # hard RDKit failure — discard this bond break event
                 parent.children.remove(bb_node)
                 del self.bond_break_nodes[bb_node.node_id]
                 continue
 
-            # link bond break node to its children
-            bb_node.charged_child_id = charged_child.node_id
-            bb_node.neutral_child_id = neutral_child.node_id
+            # link child_a (always present)
+            bb_node.child_a_id = child_a.node_id
+            self._register_fragment(child_a)
 
-            self._register_fragment(charged_child)
-            self._register_fragment(neutral_child)
+            if child_b is not None:
+                # two-fragment cleavage (acyclic bond) — GNN learns the charge
+                # split between child_a and child_b
+                bb_node.child_b_id = child_b.node_id
+                self._register_fragment(child_b)
+                if child_b.mass >= self.min_mass_da:
+                    self._expand(child_b)
+            else:
+                # single-fragment cleavage (ring-opening) — child_a trivially
+                # carries the charge, so charge_split_prior is fixed at 1.0
+                bb_node.charge_split_prior = 1.0
 
-            # recurse into charged child if it is heavy enough to fragment further
-            if charged_child.mass >= self.min_mass_da:
-                self._expand(charged_child)
+            if child_a.mass >= self.min_mass_da:
+                self._expand(child_a)
 
     def _cleave_bond(
         self,
-        mol:       Chem.Mol,
-        bond_idx:  int,
-        atom_i:    int,
-        atom_j:    int,
-        depth:     int,
-        parent_bb_id: str,
+        mol:                Chem.Mol,
+        bond_idx:           int,
+        parent_atom_map:    list[int],
+        depth:              int,
+        parent_bb_id:       str,
+        
     ) -> tuple[Optional[FragmentNode], Optional[FragmentNode]]:
         """
-        Cleaves a bond in mol and returns (charged_child, neutral_child).
+        Cleaves a bond in mol and returns (child_a, child_b).
 
-        Uses RDKit's FragmentOnBonds to break the bond and then splits the
-        resulting disconnected mol into two separate Mol objects.  The heavier
-        fragment is treated as the charged (detected) species and the lighter
-        as the neutral loss, reflecting the general tendency in EI-MS for the
-        larger fragment to retain the charge.
+        Uses RDKit's FragmentOnBonds to break the bond and splits the
+        resulting disconnected mol into two separate Mol objects.  Both
+        children are treated as potentially charged — the GNN learns which
+        side preferentially carries the charge via charge_split_prior on the
+        BondBreakNode.  child_a is the heavier fragment, child_b the lighter,
+        as a stable ordering convention (not a charge assignment).
 
-        Returns (None, None) if the bond is part of a ring and cleavage does
-        not disconnect the molecule (ring opening requires multi-bond cleavage
-        which is not modeled in this iteration).
+        For ring bonds, cleavage opens the ring without disconnecting the
+        molecule.  A single child_a is returned representing the ring-opened
+        species; child_b is None.  The ring-opened species has the same mass
+        as the parent but different connectivity and can fragment further.
+
+        Returns (None, None) only on a hard RDKit failure.
         """
         try:
-            # FragmentOnBonds inserts dummy atoms (*) at the cleavage site
+            # FragmentOnBonds breaks the bond; addDummies=False leaves radical
+            # atoms at the cleavage site rather than inserting dummy atoms
             frag_mol = Chem.FragmentOnBonds(mol, [bond_idx], addDummies=False)
             if frag_mol is None:
                 return None, None
 
-            # split into individual fragment Mol objects
-            frags = Chem.GetMolFrags(frag_mol, asMols=True, sanitizeFrags=True)
+            # frag_atom_tuples[i] are the atom indices (in frag_mol/mol space,
+            # preserved by FragmentOnBonds) for fragment i.  Compose with
+            # parent_atom_map to get root-molecule atom indices.
+            frag_atom_tuples = Chem.GetMolFrags(frag_mol)
+            frags            = Chem.GetMolFrags(frag_mol, asMols=True, sanitizeFrags=True)
+
+            if len(frags) == 1:
+                # ring bond — same atoms as parent, just different connectivity
+                map_a   = [parent_atom_map[i] for i in frag_atom_tuples[0]]
+                child_a = FragmentNode(
+                    frags[0],
+                    atom_map_to_root=map_a,
+                    radical_atom=-1,
+                    depth=depth,
+                    parent_bond_break_id=parent_bb_id,
+                )
+                return child_a, None
 
             if len(frags) != 2:
-                # ring bond — single cleavage does not disconnect
                 return None, None
 
-            frag_a, frag_b = frags
-            mass_a = Descriptors.ExactMolWt(frag_a)
-            mass_b = Descriptors.ExactMolWt(frag_b)
+            frag_a,  frag_b  = frags[0],            frags[1]
+            tuple_a, tuple_b = frag_atom_tuples[0], frag_atom_tuples[1]
+            mass_a           = Descriptors.ExactMolWt(frag_a)
+            mass_b           = Descriptors.ExactMolWt(frag_b)
 
-            # heavier fragment gets the charge (common EI heuristic)
-            if mass_a >= mass_b:
-                charged_mol, neutral_mol = frag_a, frag_b
-            else:
-                charged_mol, neutral_mol = frag_b, frag_a
+            # child_a = heavier, child_b = lighter — swap both mol and tuple
+            if mass_a < mass_b:
+                frag_a,  frag_b  = frag_b,  frag_a
+                tuple_a, tuple_b = tuple_b, tuple_a
 
-            # radical atom index: we cannot track the exact atom across
-            # fragmentation so we set -1 and let the BondBreakNode's
-            # radical_flag (0.5) represent the prior uncertainty
-            charged_child = FragmentNode(
-                charged_mol,
-                is_charged=True,
+            map_a = [parent_atom_map[i] for i in tuple_a]
+            map_b = [parent_atom_map[i] for i in tuple_b]
+
+            child_a = FragmentNode(
+                frag_a,
+                atom_map_to_root=map_a,
                 radical_atom=-1,
                 depth=depth,
                 parent_bond_break_id=parent_bb_id,
             )
-            neutral_child = FragmentNode(
-                neutral_mol,
-                is_charged=False,
+            child_b = FragmentNode(
+                frag_b,
+                atom_map_to_root=map_b,
                 radical_atom=-1,
                 depth=depth,
                 parent_bond_break_id=parent_bb_id,
             )
 
-            return charged_child, neutral_child
+            return child_a, child_b
 
         except Exception:
             return None, None
@@ -607,12 +655,13 @@ class FragmentationTree:
         for bb in current.children:
             path.append(bb)
 
-            # follow charged child
-            charged = self.fragment_nodes.get(bb.charged_child_id or "")
-            if charged:
-                path.append(charged)
-                self._dfs_paths(charged, target_id, path, results)
-                path.pop()
+            # follow both children — either can carry the charge
+            for child_id in (bb.child_a_id, bb.child_b_id):
+                child = self.fragment_nodes.get(child_id or "")
+                if child:
+                    path.append(child)
+                    self._dfs_paths(child, target_id, path, results)
+                    path.pop()
 
             path.pop()
 

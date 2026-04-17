@@ -61,6 +61,7 @@ RDLogger.DisableLog("rdApp.*")  # type: ignore
 try:
     import umap
     import hdbscan as hdbscan_lib
+    from hdbscan.validity import validity_index as hdbscan_validity
 except ImportError as e:
     raise ImportError(
         f"Missing dependency: {e}.  "
@@ -84,7 +85,6 @@ def _pdf_style():
         "small": ParagraphStyle("small", parent=base["Normal"],
                                 fontSize=8,  leading=11),
     }
-
 
 def _table_style(header_color: str = "#0A1628") -> TableStyle:
     """Returns a consistent TableStyle for metric tables in reports."""
@@ -123,7 +123,7 @@ class ClusterAnalysis:
     UMAP_N_COMPONENTS  = 2
     UMAP_N_NEIGHBORS   = 15
     UMAP_MIN_DIST      = 0.1
-    UMAP_METRIC        = "jaccard"
+    UMAP_METRIC        = "cosine"
 
     def __init__(self, cfg):
         """
@@ -378,17 +378,19 @@ class ClusterAnalysis:
                 try:
                     binary = bytes(np.array(h5f[h5_id]))
                     mol    = Chem.Mol(binary)  # type: ignore
-                    fp     = rdMolDescriptors.GetMorganFingerprintAsBitVect(
-                        mol, self.FP_RADIUS, nBits=self.FP_NBITS
-                    )
+                    fp     = rdMolDescriptors.GetMorganFingerprint(
+                        mol, self.FP_RADIUS)
+                    arr = np.zeros(self.FP_NBITS, dtype=np.float32)
+                    for idx,count in fp.GetNonzeroElements().items():
+                        arr[idx % self.FP_NBITS] += count
                     cas_list.append(cas)
-                    fps.append(np.array(fp, dtype=np.uint8))
+                    fps.append(arr)
                 except Exception as e:
                     self.log.warning(f"Fingerprint failed for {h5_id} (CAS {cas}): {e}")
                     n_failed += 1
 
         self._cas_list    = cas_list
-        self._fingerprints = np.array(fps, dtype=np.uint8)
+        self._fingerprints = np.array(fps, dtype=np.float32)
         self.log.info(
             f"  Loaded {len(cas_list):,} molecules  "
             f"({n_failed} skipped)"
@@ -507,6 +509,23 @@ class ClusterAnalysis:
             else:
                 sil_samples = np.full(len(labels), float("nan"))
 
+            # per-cluster DBCV scores
+            try:
+                validity_result = hdbscan_validity(
+                    embed.astype(np.float64),
+                    labels,
+                    per_cluster_scores=True
+                )
+
+                if isinstance(validity_result, tuple) and len(validity_result) == 2:
+                    _, dbcv_per_cluster = validity_result
+                else:
+                    dbcv_per_cluster = np.full(n_clusters, float("nan"))
+
+            except Exception as e:
+                self.log.warning(f"Per-cluster DBCV failed: {e}")
+                dbcv_per_cluster = np.full(n_clusters, float("nan"))
+
             per_cluster_stats = []
             for cl in range(n_clusters):
                 mask     = labels == cl
@@ -524,6 +543,8 @@ class ClusterAnalysis:
                 outlier_scores = clusterer.outlier_scores_[mask]
                 noise_nbr_frac = float((outlier_scores > 0.5).sum()) / max(mask.sum(), 1)
 
+                cl_dbcv = float(dbcv_per_cluster[cl]) if cl < len(dbcv_per_cluster) else float("nan")
+
                 per_cluster_stats.append({
                     "cluster_id":        cl,
                     "size":              int(mask.sum()),
@@ -531,6 +552,7 @@ class ClusterAnalysis:
                     "silhouette":        cl_sil,
                     "noise_neighbor_frac": noise_nbr_frac,
                     "persistence":       float(persistence[cl]) if cl < len(persistence) else 0.0,
+                    "dbcv":              cl_dbcv,
                 })
 
             result["labels"]               = labels
@@ -694,18 +716,13 @@ class ClusterAnalysis:
         1. Global metrics table (DBCV, silhouette, noise fraction, BSS/TSS,
            mean persistence, n_clusters, ARI, AMI)
         2. UMAP scatter coloured by cluster
-        3. Per-cluster distribution histograms (size, SSE, silhouette,
-           noise-neighbour fraction, persistence)
-        4. Top-10%% cluster table — any cluster in the top 10%% of ANY
-           per-cluster metric is included, sorted by silhouette descending
+        3. Per-cluster table — ALL clusters with size, SSE, silhouette,
+           noise-neighbour fraction, persistence, and per-cluster DBCV
         """
         tmp_dir = self.reports_dir / "_tmp_plots"
         tmp_dir.mkdir(exist_ok=True)
 
-        scatter_path  = self._make_umap_scatter(labels, tmp_dir)
-        hist_paths    = self._make_per_cluster_histograms(
-            metrics["per_cluster_stats"], tmp_dir
-        )
+        scatter_path = self._make_umap_scatter(labels, tmp_dir)
 
         doc    = SimpleDocTemplate(str(output_path), pagesize=letter,
                                    leftMargin=inch, rightMargin=inch,
@@ -774,69 +791,33 @@ class ClusterAnalysis:
         story.append(Spacer(1, 0.1 * inch))
         story.append(RLImage(str(scatter_path), width=6.5 * inch, height=5.0 * inch))
 
-        # ── per-cluster distribution histograms
+        # ── all-cluster table
         story.append(PageBreak())
-        story.append(Paragraph("Per-Cluster Metric Distributions", styles["h2"]))
+        story.append(Paragraph("Per-Cluster Summary Table", styles["h2"]))
         story.append(Paragraph(
-            "Each histogram shows how a metric is distributed across all clusters.  "
-            "Ideal training clusters sit in the right tail of size, silhouette, "
-            "and persistence, and the left tail of SSE and noise-neighbour fraction.",
-            styles["body"]
-        ))
-        story.append(Spacer(1, 0.1 * inch))
-        for hp in hist_paths:
-            story.append(RLImage(str(hp), width=6.5 * inch, height=3.5 * inch))
-            story.append(Spacer(1, 0.1 * inch))
-
-        # ── top-10%% cluster table
-        story.append(PageBreak())
-        story.append(Paragraph("Top-10% Cluster Summary Table", styles["h2"]))
-        story.append(Paragraph(
-            "A cluster is included if it falls in the top 10% of ANY per-cluster "
-            "metric (or bottom 10% for SSE and noise-neighbour fraction where lower "
-            "is better).  Sorted by silhouette score descending.  Use this table to "
-            "identify the best candidate cluster for model training.",
+            "All clusters sorted by cluster ID.  "
+            "Metrics: size, SSE, silhouette, noise-neighbour fraction, "
+            "persistence, and per-cluster DBCV.",
             styles["body"]
         ))
         story.append(Spacer(1, 0.1 * inch))
 
         pcs = metrics["per_cluster_stats"]
-
-        def top10_cluster_set(key: str, lower_is_better: bool = False) -> set:
-            vals = [s[key] for s in pcs if not np.isnan(float(s[key]))]
-            if not vals:
-                return set()
-            thresh = np.percentile(vals, 10 if lower_is_better else 90)
-            if lower_is_better:
-                return {s["cluster_id"] for s in pcs if s[key] <= thresh}
-            return {s["cluster_id"] for s in pcs if s[key] >= thresh}
-
-        top_ids = (
-            top10_cluster_set("size") |
-            top10_cluster_set("silhouette") |
-            top10_cluster_set("persistence") |
-            top10_cluster_set("sse",               lower_is_better=True) |
-            top10_cluster_set("noise_neighbor_frac", lower_is_better=True)
-        )
-
-        top_clusters = sorted(
-            [s for s in pcs if s["cluster_id"] in top_ids],
-            key=lambda x: x["silhouette"] if not np.isnan(x["silhouette"]) else -999,
-            reverse=True,
-        )
+        all_clusters = sorted(pcs, key=lambda x: x["cluster_id"])
 
         cl_header = ["Cluster", "Size", "SSE", "Silhouette",
-                     "Noise nbr frac", "Persistence"]
+                     "Noise nbr frac", "Persistence", "DBCV"]
         cl_rows = [cl_header] + [
             [s["cluster_id"],
              f"{s['size']:,}",
              f"{s['sse']:.2f}",
              f"{s['silhouette']:.4f}" if not np.isnan(s["silhouette"]) else "N/A",
              f"{s['noise_neighbor_frac']:.3f}",
-             f"{s['persistence']:.4f}"]
-            for s in top_clusters
+             f"{s['persistence']:.4f}",
+             f"{s['dbcv']:.4f}" if not np.isnan(s["dbcv"]) else "N/A"]
+            for s in all_clusters
         ]
-        cl_col_w = [0.9, 0.9, 1.1, 1.1, 1.3, 1.1]
+        cl_col_w = [0.75, 0.75, 1.0, 1.0, 1.2, 1.0, 0.9]
         cl_tbl   = Table(cl_rows, colWidths=[w * inch for w in cl_col_w])
         cl_tbl.setStyle(_table_style())
         story.append(cl_tbl)
@@ -844,8 +825,6 @@ class ClusterAnalysis:
         doc.build(story)
 
         scatter_path.unlink(missing_ok=True)
-        for hp in hist_paths:
-            hp.unlink(missing_ok=True)
 
     # endregion
 

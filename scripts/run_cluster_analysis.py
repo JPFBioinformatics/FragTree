@@ -35,15 +35,15 @@ from cluster_analysis import ClusterAnalysis
 RUN_COARSE = False
 
 RUN_FINE   = False
-FINE_CS_MIN  = 65     # min_cluster_size lower bound
-FINE_CS_MAX  = 85     # min_cluster_size upper bound
+FINE_CS_MIN  = 71     # min_cluster_size lower bound
+FINE_CS_MAX  = 95     # min_cluster_size upper bound
 FINE_CS_STEP = 2      # min_cluster_size step size
-FINE_MS_MIN  = 65     # min_samples lower bound
-FINE_MS_MAX  = 85     # min_samples upper bound  (None = same as cs_max)
+FINE_MS_MIN  = 51     # min_samples lower bound
+FINE_MS_MAX  = 65     # min_samples upper bound  (None = same as cs_max)
 
 RUN_FINAL       = True
-FINAL_CS        = 69  # chosen min_cluster_size
-FINAL_MS        = 67  # chosen min_samples
+FINAL_CS        = 75  # chosen min_cluster_size
+FINAL_MS        = 53  # chosen min_samples
 
 # endregion
 

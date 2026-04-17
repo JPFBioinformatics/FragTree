@@ -1,16 +1,24 @@
-name: fragtree
+name: fragtree2
 
 channels:
+  - pytorch
   - conda-forge
   - defaults
 
 dependencies:
   - python=3.11
+  - pytorch
+  - torchvision
+  - cpuonly
   - rdkit
   - h5py
   - numpy
   - matplotlib
   - pyyaml
+  - scikit-learn
   - pip
+  - umap-learn
+  - hdbscan
   - pip:
     - reportlab
+    - torch_geometric

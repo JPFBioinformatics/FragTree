@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"& 'C:\\\\Users\\\\DrummLab\\\\miniconda3\\\\envs\\\\fragtree\\\\python.exe' -c \\\\\"import h5py; f=h5py.File\\('C:/Jack/FragTree/databases/reference/tms/spectra.h5','r'\\); keys=list\\(f.keys\\(\\)\\); print\\(len\\(keys\\),keys[0]\\); import numpy as np; arr=np.array\\(f[keys[0]]\\); print\\(arr.shape,arr.dtype,arr[:2]\\); f.close\\(\\)\\\\\"\")"
+    ]
+  }
+}
