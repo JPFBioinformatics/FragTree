@@ -1,0 +1,8 @@
+2026-04-20 10:52:05,097  INFO  === Final clustering: min_cluster_size=75, min_samples=53 ===
+2026-04-20 10:52:05,097  INFO  Loading mol objects and computing fingerprints...
+2026-04-20 10:52:12,053  INFO    Loaded 30,494 molecules  (0 skipped)
+2026-04-20 10:52:12,082  INFO  Running UMAP  (n_neighbors=15, min_dist=0.1, metric=cosine)...
+2026-04-20 10:52:44,313  INFO    UMAP complete
+2026-04-20 10:56:19,900  INFO    DBCV=0.1158  sil=0.3254  noise=0.034  n_clusters=12  ARI=0.0000  AMI=-0.0000
+2026-04-20 10:56:20,511  INFO  Final report saved to C:\Jack\FragTree\databases\reports\final_cluster_report.pdf
+2026-04-20 10:56:20,511  INFO  Cluster assignments saved to C:\Jack\FragTree\databases\reports\cluster_assignments.json

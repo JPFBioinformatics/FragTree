@@ -33,7 +33,7 @@ from mpnn import FragTreeMPNN
 
 # region CONFIG
 
-CLUSTER_ID   = 5
+CLUSTER_ID   = 1
 MAX_DEPTH    = 3
 MODEL_PATH   = Path(__file__).resolve().parent.parent / "databases/reports" / f"mpnn_cluster{CLUSTER_ID}.pt"
 CACHE_PATH   = Path(__file__).resolve().parent.parent / "databases/reports" / f"cluster_{CLUSTER_ID}_depth{MAX_DEPTH}_dataset.pkl"
