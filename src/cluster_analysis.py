@@ -399,7 +399,7 @@ class ClusterAnalysis:
     def _run_umap(self):
         """
         Reduces fingerprint matrix to 2D using UMAP.
-        Uses Jaccard metric which is appropriate for binary fingerprints.
+        Uses coisine similarity metric which is appropriate for count fingerprints.
         """
         self.log.info(
             f"Running UMAP  "

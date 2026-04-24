@@ -1,6 +1,6 @@
 """
 
-Class and script for exploring the TMS reference database visually.
+Class for exploring the TMS reference database visually.
 Run this file directly to display all plots across two figure windows and
 save both as PDFs in the reports/ directory at the project root.
 
@@ -497,7 +497,7 @@ class ExploreDB:
 
     # region Spectral plots
 
-    def plot_fragment_occurrence(self, ax, occurrence, total_spectra, n=40):
+    def plot_fragment_occurrence(self, ax, occurrence, total_spectra, n=100):
         """
         Bar chart of the top n m/z values by number of spectra they appear in,
         annotated with the total fragment observation count.
@@ -524,7 +524,7 @@ class ExploreDB:
         ax.set_ylabel("Number of spectra containing fragment")
         ax.tick_params(axis="x", rotation=90, labelsize=7)
 
-    def plot_summed_abundance(self, ax, summed_abundance, n=40):
+    def plot_summed_abundance(self, ax, summed_abundance, n=100):
         """
         Bar chart of the top n m/z values by summed normalized relative abundance.
  
@@ -686,7 +686,7 @@ class ExploreDB:
         ax.set_xlabel("Molecular weight (Da)")
         ax.set_ylabel("Number of peaks")
 
-    def plot_similarity_distribution(self, ax, n_sample=500):
+    def plot_similarity_distribution(self, ax, n_sample=500, top_pct = 0.2, min_mz = 100):
         """
         Histogram of pairwise cosine similarities across a random sample of spectra.
 
@@ -699,11 +699,17 @@ class ExploreDB:
         ----------
         ax                  matplotlib Axes to draw on
         n_sample            number of spectra to sample for comparison (default 500)
+        top_pct             percentile to display for visualization of thresholding
+        min_mz              minimum m/z to be included in the calculations
         """
-        print(f"  Computing pairwise similarity for {n_sample} sampled spectra...")
-        spectra = self.load_spectra_sample(n_sample)
+        if n_sample != 0:
+            print(f"  Computing pairwise similarity for {n_sample} sampled spectra...")
+            spectra = self.load_spectra_sample(n_sample)
+        else:
+            print("Computing pairwise similarity for all spectra")
+            spectra = self.load_all_spectra()
 
-        max_mz = 600
+        max_mz = 800
         matrix = np.zeros((len(spectra), max_mz + 1), dtype=np.float32)
 
         for i, arr in enumerate(spectra):
@@ -713,14 +719,28 @@ class ExploreDB:
                 if idx <= max_mz:
                     matrix[i, idx] += float(intensity)
 
+        # remove tms canonical fragments (inflates cos similarities)
+        matrix[:, [73,147,149]] = 0
+
+        # remove all fragments less than threshold
+        matrix[:,:min_mz] = 0
+
+        # normalize matrix
         norms             = np.linalg.norm(matrix, axis=1, keepdims=True)
         norms[norms == 0] = 1
         matrix            = matrix / norms
 
+        # generate cosine similarity matrix and grab upper triangle (prevent duplication)
         sim_matrix = matrix @ matrix.T
         upper_tri  = sim_matrix[np.triu_indices(len(spectra), k=1)]
 
+        threshold = np.quantile(upper_tri, 1 - top_pct)
+
         ax.hist(upper_tri, bins=50, color="#8172B2", edgecolor="white", linewidth=0.4)
+        ax.axvline(threshold, color="red", linestyle="--", linewidth=1.2,
+                   label=f"Top {int(top_pct * 100)}% (≥{threshold:.3f})")
+        ax.text(threshold, ax.get_ylim()[1] * 0.95, f"Top {int(top_pct * 100)}%",
+                color="red", ha="left", va="top", fontsize=9)
         ax.set_title(
             f"Pairwise cosine similarity  (n={len(spectra)} spectra sampled)\n"
             f"Mean: {upper_tri.mean():.3f}   Median: {np.median(upper_tri):.3f}",
